@@ -1,4 +1,4 @@
-import { sample } from "@/shared/enums/sampleEnum";
+import { sample } from "@/enums/sampleEnum";
 
 export default function Home() {
   return (
