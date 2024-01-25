@@ -7,11 +7,13 @@ interface ButtonProps extends ButtonPropsAntd {
 export default function Button({
     className,
     icon,
-    type
+    type,
+    onClick
 }: ButtonProps) {
     return <ButtonAntd
         className={className}
         icon={icon}
         type={type}
+        onClick={onClick}
     />
 }
