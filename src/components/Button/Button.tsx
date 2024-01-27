@@ -8,12 +8,14 @@ export default function Button({
     className,
     icon,
     type,
-    onClick
+    onClick,
+    onBlur
 }: ButtonProps) {
     return <ButtonAntd
         className={className}
         icon={icon}
         type={type}
         onClick={onClick}
+        onBlur={onBlur}
     />
 }

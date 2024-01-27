@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Button from '@/components/Button/Button'
 import { MenuOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
+import './menu.css'
 
 export default function Menu() {
 
@@ -25,11 +26,13 @@ export default function Menu() {
                         className='text-logo-grey'
                     />}
                     onClick={() => setIsMenuOpen(prevData => !prevData)}
+                    onBlur={() => setIsMenuOpen(false)}
+                    className={`${isMenuOpen ? 'bg-main-background' : ''}`}
                 />
                 <div className={`bg-menu-black border border-menu-grey p-3 absolute end-1 rounded text-logo-grey font-semibold ${isMenuOpen ? '' : 'hidden'}`}>
                     <div className='py-0.5 px-4 cursor-pointer hover:bg-menu-grey-secondary rounded'>Animate</div>
+                    <div className='py-0.5 px-4 cursor-pointer hover:bg-menu-grey-secondary rounded'>Examples</div>
                     <div className='py-0.5 px-4 cursor-pointer hover:bg-menu-grey-secondary rounded'>About</div>
-                    <div className='py-0.5 px-4 cursor-pointer hover:bg-menu-grey-secondary rounded'>Videos</div>
                 </div>
             </div>
         </div>
