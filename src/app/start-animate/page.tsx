@@ -1,3 +1,3 @@
 export default function StartAnimate() {
-    return <h1>Sample</h1>
+    return <h1></h1>
 }

@@ -16,6 +16,7 @@ const config: Config = {
       'menu-black': '#282828',
       'menu-grey': '#939393',
       'menu-grey-secondary': '#565656',
+      'menu-red': '#D9725F',
     },
     extend: {},
   },
