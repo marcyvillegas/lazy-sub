@@ -17,6 +17,7 @@ const config: Config = {
       'menu-grey': '#939393',
       'menu-grey-secondary': '#565656',
       'menu-red': '#D9725F',
+      'green-screen': '#00B140',
     },
     extend: {},
   },
