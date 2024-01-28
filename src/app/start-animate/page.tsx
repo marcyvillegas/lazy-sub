@@ -1,3 +1,3 @@
-export default function StartAnimate() {
-    return <h1></h1>
-}
+import Animation from "@/modules/animation";
+
+export default Animation

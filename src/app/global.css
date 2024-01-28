@@ -6,8 +6,3 @@ html,
 body {
     background-color: #1F1F1F;
 }
-
-.ant-btn-primary:hover {
-    /* main-background */
-    background-color: #1F1F1F;
-}

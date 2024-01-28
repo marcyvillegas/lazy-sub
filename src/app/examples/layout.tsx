@@ -1,9 +1,9 @@
-import MainAnimationLayout from "@/layouts/MainAnimationLayout/MainAnimationLayout";
+import NavigationLayout from "@/layouts/NavigationLayout/NavigationLayout";
 
 export default function ExamplesLayout({ children }: { children: React.ReactNode }) {
     return (
-        <MainAnimationLayout>
+        <NavigationLayout>
             {children}
-        </MainAnimationLayout>
+        </NavigationLayout>
     )
 }

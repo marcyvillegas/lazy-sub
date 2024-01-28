@@ -1,9 +1,11 @@
-import MainAnimationLayout from "@/layouts/MainAnimationLayout/MainAnimationLayout";
+import NavigationLayout from "@/layouts/NavigationLayout/NavigationLayout";
 
 export default function StartAnimateLayout({ children }: { children: React.ReactNode }) {
     return (
-        <MainAnimationLayout>
-            {children}
-        </MainAnimationLayout>
+        <NavigationLayout>
+            <div className='flex justify-center'>
+                {children}
+            </div>
+        </NavigationLayout>
     )
 }
