@@ -5,6 +5,7 @@ import Button from '@/components/Button/Button'
 import { MenuOutlined } from '@ant-design/icons';
 import { ROUTES } from '@/enums/routes';
 import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation'
 import './menu.css'
 
 export default function Menu() {
@@ -12,6 +13,7 @@ export default function Menu() {
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
     const router = useRouter()
+    const pathname = usePathname()
 
     const routes = [
         {
@@ -33,11 +35,19 @@ export default function Menu() {
         setIsMenuOpen(false)
     }
 
+    const displayMenuItems = routes.map((item) =>
+        <div
+            key={item.label}
+            className={`text-logo-grey hover:underline hover:decoration-logo-green cursor-pointer font-bold mx-2 ${pathname == item.route ? 'underline decoration-logo-green' : ''}`}
+            onClick={() => redirect(item.route)}>
+            {item.label}
+        </div >
+    )
+
     const displayMobileMenuItems = routes.map((item) =>
         <div
             key={item.label}
-            className='py-0.5 px-2 cursor-pointer hover:bg-menu-grey-secondary rounded'
-            onClick={() => redirect(item.route)}
+            className={`py-0.5 px-2 cursor-pointer hover:bg-menu-grey-secondary rounded  ${pathname == item.route ? 'underline decoration-logo-green' : ''}`} onClick={() => redirect(item.route)}
         >{item.label}
         </div>
     )
@@ -45,10 +55,8 @@ export default function Menu() {
     return (
         <div className='me-5'>
 
-            <div className='hidden lg:block'>
-                <div
-                    className='py-0.5 px-2 cursor-pointer hover:bg-menu-grey-secondary rounded'
-                >About</div>
+            <div className='hidden lg:flex '>
+                {displayMenuItems}
             </div>
 
             <div className='lg:hidden relative'>
@@ -72,8 +80,7 @@ export default function Menu() {
                         >Close
                         </div>
                     </div >
-                    : <></>
-                }
+                    : <></>}
 
             </div >
         </div >
