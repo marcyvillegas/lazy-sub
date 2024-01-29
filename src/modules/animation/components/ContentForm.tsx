@@ -1,3 +1,5 @@
 export default function ContentForm() {
-    return (<div></div>)
+    return (
+        <div>Sample contetn</div>
+    )
 }

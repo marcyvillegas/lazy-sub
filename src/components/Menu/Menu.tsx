@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Button from '@/components/Button/Button'
-import { MenuOutlined } from '@ant-design/icons';
+import { MenuOutlined, CloseOutlined } from '@ant-design/icons';
 import { ROUTES } from '@/enums/routes';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation'
@@ -60,28 +60,20 @@ export default function Menu() {
             </div>
 
             <div className='lg:hidden relative'>
-                {!isMenuOpen ?
-                    <Button
+                {isMenuOpen ?
+                    <div
+                        className='bg-menu-black border border-menu-grey p-3 absolute end-1 rounded text-logo-grey font-semibold w-[8.7rem] -mt-4'>
+                        <div className='flex justify-end mb-[6px]'>
+                            <CloseOutlined onClick={() => setIsMenuOpen(false)} />
+                        </div>
+                        {displayMobileMenuItems}
+                    </div >
+                    : <Button
                         type='text'
                         icon={<MenuOutlined
                             className='text-logo-grey'
                         />}
-                        onClick={() => setIsMenuOpen(prevData => !prevData)}
-                        className={`${isMenuOpen ? 'bg-main-background' : ''}`}
-                    /> : <></>}
-
-                {isMenuOpen ?
-                    <div
-                        className='bg-menu-black border border-menu-grey p-3 absolute end-1 rounded text-logo-grey font-semibold w-[8.7rem] -mt-4'>
-                        {displayMobileMenuItems}
-                        <div
-                            className='py-0.5 px-2 cursor-pointer hover:bg-menu-red rounded'
-                            onClick={() => setIsMenuOpen(false)}
-                        >Close
-                        </div>
-                    </div >
-                    : <></>}
-
+                        onClick={() => setIsMenuOpen(true)} />}
             </div >
         </div >
     );

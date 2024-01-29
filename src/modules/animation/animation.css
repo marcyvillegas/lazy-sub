@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+.ant-collapse-header-text {
+    color: #DEDEDE;
+    font-size: 1.3rem;
+    font-weight: bold;
+    font-family: 'Inter';
+}
+
+.ant-collapse-item {
+    border-color: C3C3C3 !important;
+}
+
+.ant-collapse-content-box {
+    background-color: #2A2A2A;
+}
+
+.ant-collapse-content {
+    background-color: #2A2A2A;
+}
+
+.ant-collapse {
+    border-color: C3C3C3 !important;
+}

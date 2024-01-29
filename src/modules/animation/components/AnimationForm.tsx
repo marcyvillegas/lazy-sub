@@ -1,15 +1,18 @@
 'use client'
 
 import { Button, Checkbox, Form, Input, Collapse } from 'antd';
+import '../animation.css'
 
 export default function AnimationForm() {
     return (
-        <div>
-            <Form
+        <div className='bg-secondary-background'>
+            < Form
+                className='bg-secondary-background'
                 name="basic"
                 // labelCol={{ span: 8 }}
                 // wrapperCol={{ span: 16 }}
-                initialValues={{ remember: true }}
+                initialValues={{ remember: true }
+                }
                 // onFinish={ }
                 // onFinishFailed={ }
                 autoComplete="off"
@@ -21,7 +24,7 @@ export default function AnimationForm() {
                 >
                     <Input />
                 </Form.Item>
-            </Form>
-        </div>
+            </Form >
+        </div >
     )
 }
