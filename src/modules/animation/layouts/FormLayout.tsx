@@ -1,10 +1,10 @@
 'use client'
 
 import React, { useState } from 'react';
-import AnimationForm from './AnimationForm';
-import ContentForm from './ContentForm';
+import ContentForm from '../components/ContentForm';
+import AnimationForm from '../components/AnimationForm';
 
-export default function FormContainer() {
+export default function FormLayout() {
 
     const [activateForm, setActiveForm] = useState<string>("Content")
 
@@ -22,9 +22,11 @@ export default function FormContainer() {
                 </div>
             </div>
 
-            {activateForm == 'Content' ?
-                <ContentForm />
-                : <AnimationForm />}
+            <div className='m-5'>
+                {activateForm == 'Content' ?
+                    <ContentForm />
+                    : <AnimationForm />}
+            </div>
         </div>
     )
 }

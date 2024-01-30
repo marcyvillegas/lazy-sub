@@ -2,7 +2,6 @@ import { Button as ButtonAntd, ButtonProps as ButtonPropsAntd } from 'antd';
 
 interface ButtonProps extends ButtonPropsAntd {
     className?: string,
-    key?: string
 }
 
 export default function Button({
@@ -11,10 +10,8 @@ export default function Button({
     type,
     onClick,
     onBlur,
-    key
 }: ButtonProps) {
     return <ButtonAntd
-        key={key}
         className={className}
         icon={icon}
         type={type}
