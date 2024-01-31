@@ -20,6 +20,7 @@ const config: Config = {
       'grey-tab': '#3A3A3A',
       'white-tab': '#ECECEC',
       'green-tab': '#66E9C6',
+      'error-color': '#FF6347',
     },
     extend: {},
   },

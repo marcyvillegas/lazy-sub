@@ -7,18 +7,12 @@
     font-family: 'Inter';
 }
 
-.ant-collapse-item {
-    border-color: C3C3C3 !important;
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-input-outlined.ant-input-status-error:not(.ant-input-disabled) {
+    border-color: #FF6347 !important;
 }
 
-.ant-collapse-content-box {
-    background-color: #2A2A2A;
-}
-
-.ant-collapse-content {
-    background-color: #2A2A2A;
-}
-
-.ant-collapse {
-    border-color: C3C3C3 !important;
+:where(.css-dev-only-do-not-override-1qhpsh8).ant-form-vertical .ant-form-item-label>label {
+    color: #DEDEDE !important;
+    font-weight: bold;
+    font-size: 1rem;
 }

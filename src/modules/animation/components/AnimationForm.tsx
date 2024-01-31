@@ -1,7 +1,6 @@
 'use client'
 
 import { Button, Checkbox, Form, Input } from 'antd';
-import '../animation.css'
 
 export default function AnimationForm() {
     return (
