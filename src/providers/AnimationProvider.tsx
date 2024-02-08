@@ -4,8 +4,8 @@ import React, { ReactNode, createContext, useContext, useReducer } from "react";
 
 // Add interfaces or types here
 interface StateInterface {
-    content: string,
-    animation: string,
+    content: string[],
+    animation?: string,
 }
 
 interface ActionInterface {
@@ -17,9 +17,7 @@ type DispatchType = (action: ActionInterface) => void
 
 // Define the initial state
 const initialState = {
-    content: `This is a sample content
-    =
-    Start writing your content`,
+    content: ['This is a sample content', `The "=" are separators of the content`, 'Start typing what you want!', 'Start to animate using LazySub!'],
     animation: 'sample animation'
 };
 
@@ -42,7 +40,7 @@ const AnimationContext = createContext<
 
 // Create a component that will provide the context
 // IncrementProvider takes in an argument called children
-export const AnimationProvider = ({ children }: { children: ReactNode }) => {
+export const AnimationProvider = ({ children }: { children: React.ReactNode }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     // In this return value, we passed-in children as the CONSUMER of the PROVIDER
