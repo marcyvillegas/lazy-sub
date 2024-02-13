@@ -1,5 +1,6 @@
 'use client'
 
+import { ContentPayloadInterface } from "@/modules/animation/interfaces/ContentPayloadInteface";
 import React, { ReactNode, createContext, useContext, useReducer } from "react";
 
 // Add interfaces or types here
@@ -12,8 +13,6 @@ interface ActionInterface {
     type: 'SET_CONTENT' | 'SET_ANIMATION';
     payload: StateInterface
 }
-
-type DispatchType = (action: ActionInterface) => void
 
 // Define the initial state
 const initialState = {
@@ -35,18 +34,30 @@ const reducer = (state: StateInterface, action: ActionInterface) => {
 
 // Create a context to hold the state
 const AnimationContext = createContext<
-    { state: StateInterface; dispatch: DispatchType } | undefined
+    {
+        state: StateInterface;
+        dispatch: (action: ActionInterface) => void;
+        onSubmitContent: (values: ContentPayloadInterface) => void
+    } | undefined
 >(undefined)
 
 // Create a component that will provide the context
 // IncrementProvider takes in an argument called children
-export const AnimationProvider = ({ children }: { children: React.ReactNode }) => {
+export const AnimationProvider = ({ children }: { children: ReactNode }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
+
+    const onSubmitContent = (values: ContentPayloadInterface) => {
+        dispatch({ type: 'SET_CONTENT', payload: values })
+    }
 
     // In this return value, we passed-in children as the CONSUMER of the PROVIDER
     // This will able children components to access the data inside the context
     return (
-        <AnimationContext.Provider value={{ state, dispatch }}>
+        <AnimationContext.Provider value={{
+            state,
+            dispatch,
+            onSubmitContent
+        }}>
             {children}
         </AnimationContext.Provider>
     );

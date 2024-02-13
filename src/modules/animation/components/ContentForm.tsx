@@ -2,21 +2,23 @@
 
 import React, { useState } from 'react';
 import { Button, Form, Input, Select } from 'antd';
+import { ContentPayloadInterface } from '../interfaces/ContentPayloadInteface';
 import { useAnimationProvider } from '@/providers/AnimationProvider';
 import { convertContent } from '@/utils/convertContent';
 
 export default function ContentForm() {
 
-    const [fieldValue] = useState("=");
+    const [initialSeparatorValue] = useState("=");
 
-    const { state, dispatch } = useAnimationProvider()
+    const { state, onSubmitContent } = useAnimationProvider()
 
-    const initialValue = convertContent(state.content)
+    const initialContentValue = convertContent(state.content)
 
     const [form] = Form.useForm()
 
-    const onSubmit = (values: any) => {
-        dispatch({ type: 'SET_CONTENT', payload: values })
+    const onSubmit = (values: ContentPayloadInterface) => {
+        console.log(values)
+        onSubmitContent(values)
     }
 
     return (
@@ -29,6 +31,7 @@ export default function ContentForm() {
                 layout='vertical'
                 form={form}
                 onFinish={onSubmit}
+                initialValues={{ content: initialContentValue, seperator: initialSeparatorValue }}
             >
                 <Form.Item
                     name="content"
@@ -36,7 +39,7 @@ export default function ContentForm() {
                     rules={[{ required: true, message: 'A content is required.' }]}
                 >
                     <Input.TextArea
-                        defaultValue={initialValue}
+
                         className='resize-none h-96 max-h-96'
                         style={{ height: 400, maxHeight: 400 }} />
                 </Form.Item>
@@ -47,7 +50,7 @@ export default function ContentForm() {
                     id='seperator-id'
                     rules={[{ required: true, message: 'A seperator is required.' }]}
                 >
-                    <Select defaultValue={fieldValue}>
+                    <Select>
                         <Select.Option value="=">=</Select.Option>
                         <Select.Option value="-">-</Select.Option>
                     </Select>
