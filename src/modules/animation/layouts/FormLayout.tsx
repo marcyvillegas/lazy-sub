@@ -1,12 +1,23 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ContentForm from '../components/ContentForm';
 import AnimationForm from '../components/AnimationForm';
+import { ContentPayloadInterface } from '../interfaces/ContentPayloadInteface';
+import { useAnimationProvider } from '@/providers/AnimationProvider';
 
 export default function FormLayout() {
 
     const [activateForm, setActiveForm] = useState<string>("Content")
+
+    const { state, onSubmitContent } = useAnimationProvider()
+
+    const [contentPayload, setContentPayload] = useState<ContentPayloadInterface>(state)
+
+    const handleRedirectToAnimation = () => {
+        onSubmitContent(contentPayload)
+        setActiveForm("Animation")
+    }
 
     return (
         <div className='bg-secondary-background col-span-12 mt-2 lg:mt-0 lg:col-span-4 rounded-md p-5'>
@@ -17,14 +28,14 @@ export default function FormLayout() {
                 </div>
 
                 <div className={`bg-grey-tab py-2 px-14 mx-2 font-bold rounded-sm cursor-pointer ${activateForm == 'Animation' ? 'border-b-4 border-b-logo-green text-logo-green' : 'text-white-tab'}`}
-                    onClick={() => setActiveForm("Animation")}>
+                    onClick={handleRedirectToAnimation}>
                     Animation
                 </div>
             </div>
 
             <div className='m-5'>
                 {activateForm == 'Content' ?
-                    <ContentForm />
+                    <ContentForm setContentPayload={setContentPayload} />
                     : <AnimationForm />}
             </div>
         </div>

@@ -1,12 +1,12 @@
 'use client'
 
 import { ContentPayloadInterface } from "@/modules/animation/interfaces/ContentPayloadInteface";
-import React, { ReactNode, createContext, useContext, useReducer } from "react";
+import React, { ReactNode, createContext, useContext, useReducer, useState } from "react";
 
 // Add interfaces or types here
 interface StateInterface {
     content: string[],
-    animation?: string,
+    separator: string,
 }
 
 interface ActionInterface {
@@ -17,7 +17,7 @@ interface ActionInterface {
 // Define the initial state
 const initialState = {
     content: ['This is a sample content', `The "=" are separators of the content`, 'Start typing what you want!', 'Start to animate using LazySub!'],
-    animation: 'sample animation'
+    separator: '='
 };
 
 // Define the reducer function to handle state transitions

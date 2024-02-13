@@ -6,19 +6,22 @@ import { ContentPayloadInterface } from '../interfaces/ContentPayloadInteface';
 import { useAnimationProvider } from '@/providers/AnimationProvider';
 import { convertContent } from '@/utils/convertContent';
 
-export default function ContentForm() {
+type PropsType = {
+    setContentPayload: (values: ContentPayloadInterface) => void
+}
 
-    const [initialSeparatorValue] = useState("=");
+export default function ContentForm({ setContentPayload }: PropsType) {
 
-    const { state, onSubmitContent } = useAnimationProvider()
+    const { state } = useAnimationProvider()
+
+    const [initialSeparatorValue] = useState(state.separator)
 
     const initialContentValue = convertContent(state.content)
 
     const [form] = Form.useForm()
 
-    const onSubmit = (values: ContentPayloadInterface) => {
-        console.log(values)
-        onSubmitContent(values)
+    const onValuesChange = (values: ContentPayloadInterface) => {
+        setContentPayload(values)
     }
 
     return (
@@ -30,8 +33,8 @@ export default function ContentForm() {
                 requiredMark={false}
                 layout='vertical'
                 form={form}
-                onFinish={onSubmit}
-                initialValues={{ content: initialContentValue, seperator: initialSeparatorValue }}
+                onValuesChange={onValuesChange}
+                initialValues={{ content: initialContentValue, separator: initialSeparatorValue }}
             >
                 <Form.Item
                     name="content"
@@ -46,19 +49,15 @@ export default function ContentForm() {
 
                 <Form.Item
                     label='Separator'
-                    name='seperator'
+                    name='separator'
                     id='seperator-id'
-                    rules={[{ required: true, message: 'A seperator is required.' }]}
+                    rules={[{ required: true, message: 'A separator is required.' }]}
                 >
                     <Select>
                         <Select.Option value="=">=</Select.Option>
                         <Select.Option value="-">-</Select.Option>
                     </Select>
                 </Form.Item>
-
-                <Button htmlType="submit">
-                    Sample
-                </Button>
             </Form >
         </div>
     )
