@@ -1,4 +1,4 @@
-export const convertContent = (content: string | string[]) => {
+export const convertArrayToContentString = (content: string | string[]) => {
   let returnedContent = content;
 
   if (typeof content === 'string') {

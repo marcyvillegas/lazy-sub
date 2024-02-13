@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ContentForm from '../components/ContentForm';
 import AnimationForm from '../components/AnimationForm';
 import { ContentPayloadInterface } from '../interfaces/ContentPayloadInteface';
@@ -12,7 +12,7 @@ export default function FormLayout() {
 
     const { state, onSubmitContent } = useAnimationProvider()
 
-    const [contentPayload, setContentPayload] = useState<ContentPayloadInterface>(state)
+    const [contentPayload, setContentPayload] = useState<ContentPayloadInterface>({ contentState: state.contentState })
 
     const handleRedirectToAnimation = () => {
         onSubmitContent(contentPayload)

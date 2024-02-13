@@ -1,4 +1,6 @@
 export interface ContentPayloadInterface {
-  content: string[];
-  separator: string;
+  contentState: {
+    content: string[];
+    separator: string;
+  };
 }

@@ -1,10 +1,10 @@
 'use client'
 
 import React, { useState } from 'react';
-import { Button, Form, Input, Select } from 'antd';
+import { Form, Input, Select } from 'antd';
 import { ContentPayloadInterface } from '../interfaces/ContentPayloadInteface';
 import { useAnimationProvider } from '@/providers/AnimationProvider';
-import { convertContent } from '@/utils/convertContent';
+import { convertArrayToContentString } from '@/utils/convertArrayToContentString';
 
 type PropsType = {
     setContentPayload: (values: ContentPayloadInterface) => void
@@ -14,14 +14,24 @@ export default function ContentForm({ setContentPayload }: PropsType) {
 
     const { state } = useAnimationProvider()
 
-    const [initialSeparatorValue] = useState(state.separator)
+    const [initialSeparatorValue] = useState(state.contentState.separator)
 
-    const initialContentValue = convertContent(state.content)
+    const initialContentValue = convertArrayToContentString(state.contentState.content)
 
     const [form] = Form.useForm()
 
-    const onValuesChange = (values: ContentPayloadInterface) => {
-        setContentPayload(values)
+    const onValuesChange = (changedValues: any, allValues: { content: string, separator: string }) => {
+
+        const convertContentStringToArray = (allValues.content).split(`\n${allValues.separator}\n`)
+
+        const contentPayload = {
+            contentState: {
+                content: convertContentStringToArray,
+                separator: allValues.separator
+            }
+        }
+
+        setContentPayload(contentPayload)
     }
 
     return (
@@ -42,7 +52,6 @@ export default function ContentForm({ setContentPayload }: PropsType) {
                     rules={[{ required: true, message: 'A content is required.' }]}
                 >
                     <Input.TextArea
-
                         className='resize-none h-96 max-h-96'
                         style={{ height: 400, maxHeight: 400 }} />
                 </Form.Item>
