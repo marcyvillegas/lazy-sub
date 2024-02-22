@@ -5,6 +5,7 @@ interface ButtonProps extends ButtonPropsAntd {
 }
 
 export default function Button({
+    children,
     className,
     icon,
     type,
@@ -16,6 +17,7 @@ export default function Button({
         icon={icon}
         type={type}
         onClick={onClick}
-        onBlur={onBlur}
-    />
+        onBlur={onBlur}>
+        {children}
+    </ButtonAntd>
 }

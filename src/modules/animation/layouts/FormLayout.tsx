@@ -22,12 +22,12 @@ export default function FormLayout() {
     return (
         <div className='bg-secondary-background col-span-12 mt-2 lg:mt-0 lg:col-span-4 rounded-md p-5'>
             <div className='flex justify-center'>
-                <div className={`bg-grey-tab py-2 px-14 mx-2 font-bold rounded-sm cursor-pointer ${activateForm == 'Content' ? 'border-b-4 border-b-logo-green text-logo-green' : 'text-white-tab'}`}
+                <div className={`bg-grey-tab py-2 w-full mx-2 font-bold rounded-sm cursor-pointer flex justify-center ${activateForm == 'Content' ? 'border-b-4 border-b-logo-green text-logo-green' : 'text-white-tab'}`}
                     onClick={() => setActiveForm("Content")}>
                     Content
                 </div>
 
-                <div className={`bg-grey-tab py-2 px-14 mx-2 font-bold rounded-sm cursor-pointer ${activateForm == 'Animation' ? 'border-b-4 border-b-logo-green text-logo-green' : 'text-white-tab'}`}
+                <div className={`bg-grey-tab py-2 w-full mx-2 font-bold rounded-sm cursor-pointer flex justify-center ${activateForm == 'Animation' ? 'border-b-4 border-b-logo-green text-logo-green' : 'text-white-tab'}`}
                     onClick={handleRedirectToAnimation}>
                     Animation
                 </div>

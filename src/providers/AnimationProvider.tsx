@@ -1,7 +1,9 @@
 'use client'
 
-import { ContentPayloadInterface } from "@/modules/animation/interfaces/ContentPayloadInteface";
 import React, { ReactNode, createContext, useContext, useReducer } from "react";
+
+import { animationTypes } from "@/modules/animation/contants/animationTypes";
+import { ContentPayloadInterface } from "@/modules/animation/interfaces/ContentPayloadInteface";
 
 // Add interfaces or types here
 interface StateInterface {
@@ -9,11 +11,14 @@ interface StateInterface {
         content: string[]
         separator: string
     }
+    animationState: {
+        animation: string
+    }
 }
 
 interface ActionInterface {
     type: 'SET_CONTENT' | 'SET_ANIMATION';
-    payload: StateInterface
+    payload: any
 }
 
 // Define the initial state
@@ -21,6 +26,9 @@ const initialState = {
     contentState: {
         content: ['This is a sample content', `The "=" are separators of the content`, 'Start typing what you want!', 'Start to animate using LazySub!'],
         separator: '='
+    },
+    animationState: {
+        animation: animationTypes[0].name
     }
 };
 
@@ -28,9 +36,17 @@ const initialState = {
 const reducer = (state: StateInterface, action: ActionInterface) => {
     switch (action.type) {
         case 'SET_CONTENT':
-            return { ...state, ...action.payload, };
+            return {
+                ...state,
+                ...state.contentState,
+                ...action.payload,
+            };
         case 'SET_ANIMATION':
-            return { ...state, ...action.payload, };
+            return {
+                ...state,
+                ...state.contentState,
+                ...action.payload,
+            };
         default:
             throw new Error();
     }
