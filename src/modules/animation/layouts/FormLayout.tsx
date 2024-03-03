@@ -8,15 +8,18 @@ import { useAnimationProvider } from '@/providers/AnimationProvider';
 
 export default function FormLayout() {
 
-    const [activateForm, setActiveForm] = useState<string>("Content")
+    const [activateForm, setActiveForm] = useState<string>('Content')
 
     const { state, onSubmitContent } = useAnimationProvider()
 
     const [contentPayload, setContentPayload] = useState<ContentPayloadInterface>({ contentState: state.contentState })
 
     const handleRedirectToAnimation = () => {
-        onSubmitContent(contentPayload)
-        setActiveForm("Animation")
+        if (contentPayload.contentState.content.length != 0
+            && contentPayload.contentState.content[0].trim() != "") {
+            onSubmitContent(contentPayload)
+            return setActiveForm("Animation")
+        }
     }
 
     return (

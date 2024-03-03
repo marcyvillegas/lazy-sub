@@ -22,7 +22,7 @@ export default function ContentForm({ setContentPayload }: PropsType) {
 
     const onValuesChange = (changedValues: any, allValues: { content: string, separator: string }) => {
 
-        const convertContentStringToArray = (allValues.content).split(`\n${allValues.separator}\n`)
+        const convertContentStringToArray = (allValues.content.trim()).split(`\n${allValues.separator}\n`)
 
         const contentPayload = {
             contentState: {
@@ -47,13 +47,14 @@ export default function ContentForm({ setContentPayload }: PropsType) {
                 initialValues={{ content: initialContentValue, separator: initialSeparatorValue }}
             >
                 <Form.Item
-                    name="content"
-                    id="content-id"
-                    rules={[{ required: true, message: 'A content is required.' }]}
+                    name='content'
+                    id='content-id'
+                    rules={[{ required: true, whitespace: true, message: 'A content is required.' }]}
                 >
                     <Input.TextArea
                         className='resize-none h-96 max-h-96'
-                        style={{ height: 400, maxHeight: 400 }} />
+                        style={{ height: 400, maxHeight: 400 }}
+                    />
                 </Form.Item>
 
                 <Form.Item
