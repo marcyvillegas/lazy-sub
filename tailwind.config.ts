@@ -22,6 +22,7 @@ const config: Config = {
       'green-tab': '#66E9C6',
       'error-color': '#FF6347',
       'green-button': '#007D5C',
+      'green-border': '#009970',
     },
     extend: {},
   },

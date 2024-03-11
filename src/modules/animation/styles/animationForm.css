@@ -1,8 +1,3 @@
-.ant-btn:hover {
-    color: #ECECEC !important;
-    background-color: #009970 !important;
-}
-
 :where(.css-dev-only-do-not-override-1qhpsh8).ant-btn-default {
     border: none !important;
     border-color: #009970 !important;

@@ -13,6 +13,7 @@ interface StateInterface {
     }
     animationState: {
         animation: string
+        isAnimationStarting: boolean
     }
 }
 
@@ -28,7 +29,8 @@ const initialState = {
         separator: '='
     },
     animationState: {
-        animation: animationTypes[0].name
+        animation: animationTypes[0].name,
+        isAnimationStarting: false
     }
 };
 
@@ -38,15 +40,15 @@ const reducer = (state: StateInterface, action: ActionInterface) => {
         case 'SET_CONTENT':
             return {
                 ...state,
-                ...state.contentState,
                 ...action.payload,
             };
+
         case 'SET_ANIMATION':
             return {
                 ...state,
-                ...state.contentState,
                 ...action.payload,
             };
+
         default:
             throw new Error();
     }
@@ -88,7 +90,7 @@ export const useAnimationProvider = () => {
     const context = useContext(AnimationContext)
 
     if (context === undefined) {
-        throw new Error('useCount must be used within a CountProvider')
+        throw new Error('useAnimationProvider must be used within a AnimationProvider')
     }
     return context
 }

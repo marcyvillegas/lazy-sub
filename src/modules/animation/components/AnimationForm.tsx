@@ -10,11 +10,17 @@ import '../styles/animationForm.css';
 
 export default function AnimationForm() {
 
-    const { state } = useAnimationProvider()
+    const { state, dispatch } = useAnimationProvider()
 
     const [initialAnimationValue] = useState(state.animationState.animation)
 
     const [form] = Form.useForm()
+
+    const onClick = () => {
+        dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), isAnimationStarting: true } } })
+
+        console.log(state)
+    }
 
     return (
         <div className='bg-secondary-background'>
@@ -26,7 +32,6 @@ export default function AnimationForm() {
                 layout='vertical'
                 form={form}
                 initialValues={{ animation: initialAnimationValue }}
-            // onFinish={ }
             >
                 <Form.Item
                     label='Animation'
@@ -42,9 +47,11 @@ export default function AnimationForm() {
                 </Form.Item>
 
                 <div className='flex justify-end'>
-                    <Button className='bg-green-button text-white-tab font-bold'>
-                        Generate
-                    </Button>
+                    <Form.Item>
+                        <Button className='bg-green-button text-white-tab font-bold hover:!text-white-tab' onClick={onClick}>
+                            Generate
+                        </Button>
+                    </Form.Item>
                 </div>
             </Form >
         </div >
