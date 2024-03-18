@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button } from "@/components";
 import { useAnimationProvider } from "@/providers/AnimationProvider";
@@ -8,28 +8,36 @@ import { animationTypes } from "../contants/animationTypes";
 
 export default function GreenScreen() {
 
-    const [isDisplayingAnimation, setIsDisplayingAnimation] = useState(false)
+    const [isDisplayingAnimation, setIsDisplayingAnimation] = useState<boolean>(false)
+    const [selectedAnimation, setSelectedAnimation] = useState<string>('')
+    const [classNameAnimation, setClassNameAnimation] = useState<string>('')
 
-    const { state, dispatch } = useAnimationProvider()
+    const { state } = useAnimationProvider()
 
-    console.log(state)
-
-    const getClassName = () => {
-        const animationType = animationTypes.find(item => item.name == state.animationState.animation)
-
-        if (!animationType) {
-            return ''
+    useEffect(() => {
+        if (state.animationState.animation) {
+            setSelectedAnimation(state.animationState.animation)
         }
 
-        setIsDisplayingAnimation(true)
-        return animationType.style
-    }
+        if (state.animationState.isAnimationStarting) {
+            setIsDisplayingAnimation(true)
+        }
+
+        const animationType = animationTypes.find(item => item.name == selectedAnimation)
+
+        if (!animationType) {
+            return setClassNameAnimation('')
+        }
+
+        setClassNameAnimation(animationType.style)
+
+    }, [selectedAnimation, state.animationState.animation, state.animationState.isAnimationStarting])
 
     return (
         <div className='col-span-12 lg:col-span-8'>
             <div className='flex flex-col'>
                 <div className='bg-green-screen lg:me-5 h-[32rem] rounded-md flex'>
-                    <div className={`${state.animationState.isAnimationStarting ? getClassName() : ''} ${state.animationState.isAnimationStarting ? 'block' : 'hidden'}`}>
+                    <div className={`${isDisplayingAnimation ? classNameAnimation : ''} ${isDisplayingAnimation ? 'block' : 'hidden'} flex justify-center items-center`}>
                         asdf
                     </div>
                 </div>
