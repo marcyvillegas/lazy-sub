@@ -6,6 +6,7 @@ import { Form, Select } from 'antd';
 import { Button } from '@/components';
 import { animationTypes } from '../contants/animationTypes';
 import { useAnimationProvider } from '@/providers/AnimationProvider';
+import { UndoOutlined } from '@ant-design/icons';
 import '../styles/animationForm.css';
 
 export default function AnimationForm() {
@@ -16,10 +17,14 @@ export default function AnimationForm() {
 
     const [form] = Form.useForm()
 
-    const onClick = () => {
+    const handleOnClick = () => {
         dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), isAnimationStarting: true } } })
+    }
 
-        console.log(state)
+    const handleOnReset = () => {
+        dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), isAnimationStarting: false } } })
+
+        setTimeout(() => dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), isAnimationStarting: true } } }), 500);
     }
 
     return (
@@ -47,9 +52,19 @@ export default function AnimationForm() {
                 </Form.Item>
 
                 <div className='flex justify-end'>
+                    {
+                        state.animationState.isAnimationStarting &&
+                        <Form.Item>
+                            <Button
+                                className='bg-green-button text-white-tab mr-2 hover:!text-white-tab'
+                                icon={<UndoOutlined />}
+                                onClick={handleOnReset} />
+                        </Form.Item>
+                    }
                     <Form.Item>
-                        <Button className='bg-green-button text-white-tab font-bold hover:!text-white-tab' onClick={onClick}>
-                            Generate
+                        <Button
+                            className='bg-green-button text-white-tab font-bold hover:!text-white-tab' onClick={handleOnClick}>
+                            Play
                         </Button>
                     </Form.Item>
                 </div>
