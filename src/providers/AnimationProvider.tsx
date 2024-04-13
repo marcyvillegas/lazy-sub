@@ -3,6 +3,7 @@
 import React, { ReactNode, createContext, useContext, useReducer } from "react";
 
 import { animationTypes } from "@/modules/animation/contants/animationTypes";
+import { themes } from "@/modules/animation/contants/themes";
 import { ContentPayloadInterface } from "@/modules/animation/interfaces/ContentPayloadInteface";
 
 // Add interfaces or types here
@@ -14,6 +15,7 @@ interface StateInterface {
     animationState: {
         animation: string
         isAnimationStarting: boolean
+        theme: string
     }
 }
 
@@ -30,7 +32,8 @@ const initialState = {
     },
     animationState: {
         animation: animationTypes[0].name,
-        isAnimationStarting: false
+        isAnimationStarting: false,
+        theme: themes[0].name
     }
 };
 
@@ -64,7 +67,7 @@ const AnimationContext = createContext<
 >(undefined)
 
 // Create a component that will provide the context
-// IncrementProvider takes in an argument called children
+// AnimationProvider takes in an argument called children
 export const AnimationProvider = ({ children }: { children: ReactNode }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 

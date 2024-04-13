@@ -1,11 +1,11 @@
 export const animationTypes = [
   {
     name: 'Bounce',
-    style: 'animate-bounce p-2 bg-green-button text-white-tab font-bold',
+    style: 'animate-bounce',
   },
   {
     name: 'Typing',
-    style: 'p-2',
+    style: '',
     isComplex: true,
   },
 ];

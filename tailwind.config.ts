@@ -23,6 +23,11 @@ const config: Config = {
       'error-color': '#FF6347',
       'green-button': '#007D5C',
       'green-border': '#009970',
+
+      // used for animations
+    },
+    fontFamily: {
+      inter: ['Inter', 'sans-serif'],
     },
     extend: {},
   },

@@ -8,59 +8,83 @@ import { animationTypes } from '../contants/animationTypes';
 import { useAnimationProvider } from '@/providers/AnimationProvider';
 import { UndoOutlined } from '@ant-design/icons';
 import '../styles/animationForm.css';
+import { themes } from '../contants/themes';
 
 export default function AnimationForm() {
 
     const { state, dispatch } = useAnimationProvider()
 
     const [initialAnimationValue] = useState(state.animationState.animation)
+    const [initialThemeValue] = useState(state.animationState.theme)
 
     const [form] = Form.useForm()
 
     const handleOnClick = () => {
-        dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), isAnimationStarting: true } } })
+        dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), theme: form.getFieldValue('theme'), isAnimationStarting: true } } })
     }
 
     const handleOnReset = () => {
-        dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), isAnimationStarting: false } } })
+        dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), theme: form.getFieldValue('theme'), isAnimationStarting: false } } })
 
-        setTimeout(() => dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), isAnimationStarting: true } } }), 500);
+        setTimeout(() => dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), theme: form.getFieldValue('theme'), isAnimationStarting: true } } }), 500);
+    }
+
+    const handleChangeAnimation = (value: any) => {
+        dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: value, theme: state.animationState.theme, isAnimationStarting: false } } })
+
+        setTimeout(() => dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: value, theme: state.animationState.theme, isAnimationStarting: true } } }), 200);
+    }
+
+    const handleChangeTheme = (value: any) => {
+        dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: state.animationState.animation, theme: value, isAnimationStarting: false } } })
+
+        setTimeout(() => dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: state.animationState.animation, theme: value, isAnimationStarting: true } } }), 200);
     }
 
     return (
         <div className='bg-secondary-background'>
-            < Form
+            <Form
                 className='bg-secondary-background'
                 name='basic'
                 autoComplete='off'
                 requiredMark={false}
                 layout='vertical'
                 form={form}
-                initialValues={{ animation: initialAnimationValue }}
+                initialValues={{ animation: initialAnimationValue, theme: initialThemeValue }}
+                onChange={handleOnClick}
             >
                 <Form.Item
                     label='Animation'
                     name='animation'
                     id='animation-id'
-                    rules={[{ required: true, message: 'A separator is required.' }]}
                 >
-                    <Select>
+                    <Select onChange={handleChangeAnimation}>
                         {animationTypes.map((item) => (
                             <Select.Option key={item.name} value={item.name}>{item.name}</Select.Option>
                         ))}
                     </Select>
                 </Form.Item>
 
+                <Form.Item
+                    label='Theme'
+                    name='theme'
+                    id='theme-id'
+                >
+                    <Select onChange={handleChangeTheme}>
+                        {themes.map((item) => (
+                            <Select.Option key={item.name} value={item.name}>{item.name}</Select.Option>
+                        ))}
+                    </Select>
+                </Form.Item>
+
                 <div className='flex justify-end'>
-                    {
-                        state.animationState.isAnimationStarting &&
+                    {state.animationState.isAnimationStarting &&
                         <Form.Item>
                             <Button
                                 className='bg-green-button text-white-tab mr-2 hover:!text-white-tab'
                                 icon={<UndoOutlined />}
                                 onClick={handleOnReset} />
-                        </Form.Item>
-                    }
+                        </Form.Item>}
                     <Form.Item>
                         <Button
                             className='bg-green-button text-white-tab font-bold hover:!text-white-tab' onClick={handleOnClick}>

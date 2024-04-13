@@ -10,14 +10,15 @@ export default function Button({
     icon,
     type,
     onClick,
-    onBlur,
+    onBlur
 }: ButtonProps) {
     return <ButtonAntd
         className={className}
         icon={icon}
         type={type}
         onClick={onClick}
-        onBlur={onBlur}>
+        onBlur={onBlur}
+    >
         {children}
     </ButtonAntd>
 }
