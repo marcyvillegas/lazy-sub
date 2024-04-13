@@ -32,8 +32,6 @@ export default function GreenScreen() {
         const animationType = animationTypes.find(item => item.name == selectedAnimation)
         const themeType = themes.find(item => item.name == selectedTheme)
 
-        console.log(selectedTheme)
-
         if (!animationType) {
             return setClassNameAnimation('')
         }

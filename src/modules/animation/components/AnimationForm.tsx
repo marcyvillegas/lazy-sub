@@ -24,6 +24,7 @@ export default function AnimationForm() {
     }
 
     const handleOnReset = () => {
+
         dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), theme: form.getFieldValue('theme'), isAnimationStarting: false } } })
 
         setTimeout(() => dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), theme: form.getFieldValue('theme'), isAnimationStarting: true } } }), 500);
