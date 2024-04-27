@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 
 import Typed from 'typed.js';
 import { useAnimationProvider } from "@/providers/AnimationProvider";
-import { animationTypes } from "../contants/animationTypes";
-import { themes } from "../contants/themes";
+import { animationTypes } from "../constants/animationTypes";
+import { themes } from "../constants/themes";
 
 export default function GreenScreen() {
 

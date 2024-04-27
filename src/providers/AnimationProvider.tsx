@@ -2,8 +2,8 @@
 
 import React, { ReactNode, createContext, useContext, useReducer } from "react";
 
-import { animationTypes } from "@/modules/animation/contants/animationTypes";
-import { themes } from "@/modules/animation/contants/themes";
+import { animationTypes } from "@/modules/animation/constants/animationTypes";
+import { themes } from "@/modules/animation/constants/themes";
 import { ContentPayloadInterface } from "@/modules/animation/interfaces/ContentPayloadInteface";
 
 // Add interfaces or types here
@@ -37,7 +37,7 @@ const initialState = {
     }
 };
 
-// Define the reducer function to handle state transitions
+// Define the reducer function to handle modification of state
 const reducer = (state: StateInterface, action: ActionInterface) => {
     switch (action.type) {
         case 'SET_CONTENT':
@@ -88,7 +88,7 @@ export const AnimationProvider = ({ children }: { children: ReactNode }) => {
     );
 }
 
-// Create a function that invokes the context 
+// Create a custom hook that invokes the context 
 export const useAnimationProvider = () => {
     const context = useContext(AnimationContext)
 

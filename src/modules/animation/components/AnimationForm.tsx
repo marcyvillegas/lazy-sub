@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 
 import { Form, Select } from 'antd';
 import { Button } from '@/components';
-import { animationTypes } from '../contants/animationTypes';
+import { animationTypes } from '../constants/animationTypes';
 import { useAnimationProvider } from '@/providers/AnimationProvider';
 import { UndoOutlined } from '@ant-design/icons';
 import '../styles/animationForm.css';
-import { themes } from '../contants/themes';
+import { themes } from '../constants/themes';
 
 export default function AnimationForm() {
 
@@ -16,6 +16,7 @@ export default function AnimationForm() {
 
     const [initialAnimationValue] = useState(state.animationState.animation)
     const [initialThemeValue] = useState(state.animationState.theme)
+    const [isResetClicked, setIsResetClicked] = useState(false)
 
     const [form] = Form.useForm()
 
@@ -23,11 +24,19 @@ export default function AnimationForm() {
         dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), theme: form.getFieldValue('theme'), isAnimationStarting: true } } })
     }
 
+    const handleOnStop = () => {
+        dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), theme: form.getFieldValue('theme'), isAnimationStarting: false } } })
+    }
+
     const handleOnReset = () => {
 
         dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), theme: form.getFieldValue('theme'), isAnimationStarting: false } } })
+        setIsResetClicked(true)
 
-        setTimeout(() => dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), theme: form.getFieldValue('theme'), isAnimationStarting: true } } }), 500);
+        setTimeout(() => {
+            dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), theme: form.getFieldValue('theme'), isAnimationStarting: true } } })
+            setIsResetClicked(false)
+        }, 500);
     }
 
     const handleChangeAnimation = (value: any) => {
@@ -86,12 +95,13 @@ export default function AnimationForm() {
                                 icon={<UndoOutlined />}
                                 onClick={handleOnReset} />
                         </Form.Item>}
-                    <Form.Item>
-                        <Button
-                            className='bg-green-button text-white-tab font-bold hover:!text-white-tab' onClick={handleOnClick}>
-                            Play
-                        </Button>
-                    </Form.Item>
+                    {!isResetClicked &&
+                        <Form.Item>
+                            <Button
+                                className='bg-green-button text-white-tab font-bold hover:!text-white-tab' onClick={state.animationState.isAnimationStarting && !isResetClicked ? handleOnStop : handleOnClick}>
+                                {state.animationState.isAnimationStarting ? "Stop" : "Play"}
+                            </Button>
+                        </Form.Item>}
                 </div>
             </Form >
         </div >
