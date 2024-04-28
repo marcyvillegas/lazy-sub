@@ -16,7 +16,7 @@ export default function ContentForm({ setContentPayload }: PropsType) {
 
     const [initialSeparatorValue] = useState(state.contentState.separator)
 
-    const initialContentValue = convertArrayToContentString(state.contentState.content)
+    const initialContentValue = convertArrayToContentString(state.contentState.content, state.contentState.separator)
 
     const [form] = Form.useForm()
 

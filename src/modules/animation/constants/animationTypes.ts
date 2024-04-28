@@ -1,5 +1,9 @@
 export const animationTypes = [
   {
+    name: 'Default',
+    style: '',
+  },
+  {
     name: 'Bounce',
     style: 'animate-bounce',
   },

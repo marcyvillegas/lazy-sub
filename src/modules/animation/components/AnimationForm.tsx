@@ -22,6 +22,7 @@ export default function AnimationForm() {
 
     const handleOnClick = () => {
         dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), theme: form.getFieldValue('theme'), isAnimationStarting: true } } })
+        console.log(state)
     }
 
     const handleOnStop = () => {

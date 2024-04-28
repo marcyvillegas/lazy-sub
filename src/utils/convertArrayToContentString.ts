@@ -1,10 +1,13 @@
-export const convertArrayToContentString = (content: string | string[]) => {
+export const convertArrayToContentString = (
+  content: string | string[],
+  separator: string
+) => {
   let returnedContent = content;
 
   if (typeof content === 'string') {
     returnedContent = [content];
-    return returnedContent.join('\n=\n');
+    return returnedContent.join(`\n${separator}\n`);
   }
 
-  return content.join('\n=\n');
+  return content.join(`\n${separator}\n`);
 };

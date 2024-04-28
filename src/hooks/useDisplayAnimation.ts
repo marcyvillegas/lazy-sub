@@ -8,7 +8,7 @@ export default function useDisplayAnimation(
   setLineDisplayed: React.Dispatch<React.SetStateAction<string>>,
   selectedAnimation: string
 ) {
-  const { state } = useAnimationProvider();
+  const { state, dispatch } = useAnimationProvider();
 
   useEffect(() => {
     const content = state.contentState.content;
@@ -24,8 +24,18 @@ export default function useDisplayAnimation(
         setLineDisplayed(content[contentNumber]);
         contentNumber += 1;
 
-        if (contentNumber >= content.length) {
+        if (contentNumber > content.length) {
           contentNumber = 0;
+          dispatch({
+            type: 'SET_ANIMATION',
+            payload: {
+              animationState: {
+                animation: state.animationState.animation,
+                theme: state.animationState.theme,
+                isAnimationStarting: false,
+              },
+            },
+          });
         }
       }, 4000);
 
@@ -51,5 +61,7 @@ export default function useDisplayAnimation(
     state.animationState.animation,
     setLineDisplayed,
     selectedAnimation,
+    state.animationState.theme,
+    dispatch,
   ]);
 }
