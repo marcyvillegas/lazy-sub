@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 
-import Typed from 'typed.js';
 import { useAnimationProvider } from "@/providers/AnimationProvider";
 import { animationTypes } from "../constants/animationTypes";
 import { themes } from "../constants/themes";
+import useDisplayAnimation from "@/hooks/useDisplayAnimation";
 
 export default function GreenScreen() {
 
@@ -17,6 +17,7 @@ export default function GreenScreen() {
     const [lineDisplayed, setLineDisplayed] = useState<string>('')
 
     const { state } = useAnimationProvider()
+    useDisplayAnimation(setLineDisplayed, selectedAnimation)
 
     useEffect(() => {
         if (state.animationState.isAnimationStarting) {
@@ -44,41 +45,6 @@ export default function GreenScreen() {
         setClassNameTheme(themeType)
 
     }, [selectedAnimation, selectedTheme, state.animationState.animation, state.animationState.isAnimationStarting, state.animationState.theme])
-
-    useEffect(() => {
-
-        const content = state.contentState.content
-        let contentNumber = 1
-
-        if (state.animationState.isAnimationStarting && state.animationState.animation != 'Typing') {
-
-            setLineDisplayed(content[0])
-
-            const interval = setInterval(() => {
-                setLineDisplayed(content[contentNumber])
-                contentNumber += 1
-
-                if (contentNumber >= content.length) {
-                    contentNumber = 0
-                }
-            }, 4000);
-
-            return () => clearInterval(interval);
-        }
-
-        if (state.animationState.isAnimationStarting && state.animationState.animation == 'Typing') {
-
-            const typed = new Typed('#element', {
-                strings: state.contentState.content,
-                typeSpeed: 30
-            });
-
-            return () => {
-                typed.destroy();
-            };
-        }
-
-    }, [state.animationState.isAnimationStarting, state.contentState.content, selectedAnimation, state.animationState.animation]);
 
     return (
         <div className='col-span-12 lg:col-span-8'>

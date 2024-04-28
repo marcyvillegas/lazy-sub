@@ -6,7 +6,7 @@ import { animationTypes } from "@/modules/animation/constants/animationTypes";
 import { themes } from "@/modules/animation/constants/themes";
 import { ContentPayloadInterface } from "@/modules/animation/interfaces/ContentPayloadInteface";
 
-// Add interfaces or types here
+// Add interfaces here
 interface StateInterface {
     contentState: {
         content: string[]
