@@ -6,7 +6,9 @@ import { useAnimationProvider } from '@/providers/AnimationProvider';
 
 export default function useDisplayAnimation(
   setLineDisplayed: React.Dispatch<React.SetStateAction<string>>,
-  selectedAnimation: string
+  selectedAnimation: string,
+  selectedFont: string,
+  selectedFontSize: number
 ) {
   const { state, dispatch } = useAnimationProvider();
 
@@ -63,5 +65,7 @@ export default function useDisplayAnimation(
     selectedAnimation,
     state.animationState.theme,
     dispatch,
+    selectedFont,
+    selectedFontSize,
   ]);
 }

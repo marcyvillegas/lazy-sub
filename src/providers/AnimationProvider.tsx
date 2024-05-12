@@ -2,8 +2,7 @@
 
 import React, { ReactNode, createContext, useContext, useReducer } from "react";
 
-import { animationTypes } from "@/modules/animation/constants/animationTypes";
-import { themes } from "@/modules/animation/constants/themes";
+import { animationTypes, fontSizes, fonts, themes } from "@/modules/animation/constants";
 import { ContentPayloadInterface } from "@/modules/animation/interfaces/ContentPayloadInteface";
 
 // Add interfaces here
@@ -16,6 +15,8 @@ interface StateInterface {
         animation: string
         isAnimationStarting: boolean
         theme: string
+        font: string
+        fontSize: number
     }
 }
 
@@ -33,7 +34,9 @@ const initialState = {
     animationState: {
         animation: animationTypes[0].name,
         isAnimationStarting: false,
-        theme: themes[0].name
+        theme: themes[0].name,
+        font: fonts[0].name,
+        fontSize: fontSizes[0].name
     }
 };
 

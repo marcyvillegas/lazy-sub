@@ -28,6 +28,8 @@ const config: Config = {
     },
     fontFamily: {
       inter: ['Inter', 'sans-serif'],
+      poppins: ['Poppins', 'sans-serif'],
+      japanese: ['Natoto Sans JP', 'sans-serif'],
     },
     extend: {},
   },
