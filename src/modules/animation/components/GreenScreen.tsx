@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 
-import { useAnimationProvider } from "@/providers/AnimationProvider";
 import { animationTypes, fontSizes, fonts, themes } from "../constants";
 import useDisplayAnimation from "@/hooks/useDisplayAnimation";
+import { useAnimationStore } from "@/stores/animationStore";
 
 export default function GreenScreen() {
 
@@ -20,7 +20,7 @@ export default function GreenScreen() {
     const [classNameFontSize, setClassNameFontSize] = useState<string>('')
     const [lineDisplayed, setLineDisplayed] = useState<string>('')
 
-    const { state } = useAnimationProvider()
+    const { animationState } = useAnimationStore()
     useDisplayAnimation(
         setLineDisplayed,
         selectedAnimation,
@@ -29,15 +29,15 @@ export default function GreenScreen() {
     )
 
     useEffect(() => {
-        if (state.animationState.isAnimationStarting) {
-            setSelectedAnimation(state.animationState.animation)
-            setSelectedTheme(state.animationState.theme)
-            setSelectedFont(state.animationState.font)
-            setSelectedFontSize(state.animationState.fontSize)
+        if (animationState.isAnimationStarting) {
+            setSelectedAnimation(animationState.animation)
+            setSelectedTheme(animationState.theme)
+            setSelectedFont(animationState.font)
+            setSelectedFontSize(animationState.fontSize)
             setIsDisplayingAnimation(true)
         }
 
-        if (!state.animationState.isAnimationStarting) {
+        if (!animationState.isAnimationStarting) {
             setIsDisplayingAnimation(false)
         }
 
@@ -67,9 +67,7 @@ export default function GreenScreen() {
         setClassNameFont(fontType.style)
         setClassNameFontSize(fontSizeType.style)
 
-    }, [selectedAnimation, selectedFont, selectedFontSize, selectedTheme, state.animationState.animation, state.animationState.font, state.animationState.fontSize, state.animationState.isAnimationStarting, state.animationState.theme])
-
-    console.log(classNameFont)
+    }, [animationState.animation, animationState.font, animationState.fontSize, animationState.isAnimationStarting, animationState.theme, selectedAnimation, selectedFont, selectedFontSize, selectedTheme])
 
     return (
         <div className='col-span-12 lg:col-span-8'>
