@@ -5,65 +5,63 @@ import React, { useState } from 'react';
 import { Form, Select } from 'antd';
 import { Button } from '@/components';
 import { animationTypes } from '../constants/animationTypes';
-import { useAnimationProvider } from '@/providers/AnimationProvider';
+import { useAnimationStore } from '@/stores/animationStore';
 import { UndoOutlined } from '@ant-design/icons';
 import '../styles/animationForm.css';
 import { themes } from '../constants/themes';
 import { fontSizes, fonts } from '../constants';
 
 export default function AnimationForm() {
+    const { animationState, updateAnimation } = useAnimationStore();
 
-    const { state, dispatch } = useAnimationProvider()
-
-    const [initialAnimationValue] = useState(state.animationState.animation)
-    const [initialThemeValue] = useState(state.animationState.theme)
-    const [initialFontValue] = useState(state.animationState.font)
-    const [initialFontSizeValue] = useState(state.animationState.fontSize)
+    const [initialAnimationValue] = useState(animationState.animation)
+    const [initialThemeValue] = useState(animationState.theme)
+    const [initialFontValue] = useState(animationState.font)
+    const [initialFontSizeValue] = useState(animationState.fontSize)
     const [isResetClicked, setIsResetClicked] = useState(false)
 
     const [form] = Form.useForm()
 
     const handleOnClick = () => {
-        dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), theme: form.getFieldValue('theme'), font: form.getFieldValue('font'), fontSize: form.getFieldValue('fontSize'), isAnimationStarting: true } } })
+        updateAnimation({ animation: form.getFieldValue('animation'), theme: form.getFieldValue('theme'), font: form.getFieldValue('font'), fontSize: form.getFieldValue('fontSize'), isAnimationStarting: true })
     }
 
     const handleOnStop = () => {
-        dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), theme: form.getFieldValue('theme'), font: form.getFieldValue('font'), fontSize: form.getFieldValue('fontSize'), isAnimationStarting: false } } })
+        updateAnimation({ isAnimationStarting: false })
     }
 
     const handleOnReset = () => {
-
-        dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), theme: form.getFieldValue('theme'), font: form.getFieldValue('font'), fontSize: form.getFieldValue('fontSize'), isAnimationStarting: false } } })
+        updateAnimation({ isAnimationStarting: false })
         setIsResetClicked(true)
 
         setTimeout(() => {
-            dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: form.getFieldValue('animation'), theme: form.getFieldValue('theme'), font: form.getFieldValue('font'), fontSize: form.getFieldValue('fontSize'), isAnimationStarting: true } } })
+            updateAnimation({ isAnimationStarting: true })
             setIsResetClicked(false)
         }, 500);
     }
 
     const handleChangeAnimation = (value: any) => {
-        dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: value, theme: state.animationState.theme, font: state.animationState.font, fontSize: state.animationState.fontSize, isAnimationStarting: false } } })
+        updateAnimation({ animation: value, isAnimationStarting: false })
 
-        setTimeout(() => dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: value, theme: state.animationState.theme, font: state.animationState.font, fontSize: state.animationState.fontSize, isAnimationStarting: true } } }), 200);
+        setTimeout(() => {
+            updateAnimation({ isAnimationStarting: true })
+        }, 200);
     }
 
     const handleChangeTheme = (value: any) => {
-        dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: state.animationState.animation, theme: value, font: state.animationState.font, fontSize: state.animationState.fontSize, isAnimationStarting: false } } })
+        updateAnimation({ theme: value, isAnimationStarting: false })
 
-        setTimeout(() => dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: state.animationState.animation, theme: value, font: state.animationState.font, fontSize: state.animationState.fontSize, isAnimationStarting: true } } }), 200);
-    }
-
-    const handleChangeFont = (value: any) => {
-        dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: state.animationState.animation, theme: state.animationState.theme, font: value, fontSize: state.animationState.fontSize, isAnimationStarting: false } } })
-
-        setTimeout(() => dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: state.animationState.animation, theme: state.animationState.theme, font: value, fontSize: state.animationState.fontSize, isAnimationStarting: true } } }), 200);
+        setTimeout(() => {
+            updateAnimation({ isAnimationStarting: true })
+        }, 200);
     }
 
     const handleChangeFontSize = (value: any) => {
-        dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: state.animationState.animation, theme: state.animationState.theme, font: state.animationState.font, fontSize: value, isAnimationStarting: false } } })
+        updateAnimation({ fontSize: value, isAnimationStarting: false })
 
-        setTimeout(() => dispatch({ type: 'SET_ANIMATION', payload: { animationState: { animation: state.animationState.animation, theme: state.animationState.theme, font: state.animationState.font, fontSize: value, isAnimationStarting: true } } }), 200);
+        setTimeout(() => {
+            updateAnimation({ isAnimationStarting: true })
+        }, 200);
     }
 
     return (
@@ -131,7 +129,7 @@ export default function AnimationForm() {
                 </div>
 
                 <div className='flex justify-end'>
-                    {state.animationState.isAnimationStarting &&
+                    {animationState.isAnimationStarting &&
                         <Form.Item>
                             <Button
                                 className='bg-green-button text-white-tab mr-2 hover:!text-white-tab'
@@ -141,8 +139,8 @@ export default function AnimationForm() {
                     {!isResetClicked &&
                         <Form.Item>
                             <Button
-                                className='bg-green-button text-white-tab font-bold hover:!text-white-tab' onClick={state.animationState.isAnimationStarting && !isResetClicked ? handleOnStop : handleOnClick}>
-                                {state.animationState.isAnimationStarting ? "Stop" : "Play"}
+                                className='bg-green-button text-white-tab font-bold hover:!text-white-tab' onClick={animationState.isAnimationStarting && !isResetClicked ? handleOnStop : handleOnClick}>
+                                {animationState.isAnimationStarting ? "Stop" : "Play"}
                             </Button>
                         </Form.Item>}
                 </div>

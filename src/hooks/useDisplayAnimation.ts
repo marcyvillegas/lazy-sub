@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import Typed from 'typed.js';
-import { useAnimationProvider } from '@/providers/AnimationProvider';
+import { useAnimationStore } from '@/stores/animationStore';
 
 export default function useDisplayAnimation(
   setLineDisplayed: React.Dispatch<React.SetStateAction<string>>,
@@ -10,15 +10,15 @@ export default function useDisplayAnimation(
   selectedFont: string,
   selectedFontSize: number
 ) {
-  const { state, dispatch } = useAnimationProvider();
+  const { contentState, animationState, updateAnimation } = useAnimationStore();
 
   useEffect(() => {
-    const content = state.contentState.content;
+    const content = contentState.content;
     let contentNumber = 1;
 
     if (
-      state.animationState.isAnimationStarting &&
-      state.animationState.animation != 'Typing'
+      animationState.isAnimationStarting &&
+      animationState.animation != 'Typing'
     ) {
       setLineDisplayed(content[0]);
 
@@ -28,15 +28,11 @@ export default function useDisplayAnimation(
 
         if (contentNumber > content.length) {
           contentNumber = 0;
-          dispatch({
-            type: 'SET_ANIMATION',
-            payload: {
-              animationState: {
-                animation: state.animationState.animation,
-                theme: state.animationState.theme,
-                isAnimationStarting: false,
-              },
-            },
+
+          updateAnimation({
+            animation: animationState.animation,
+            theme: animationState.theme,
+            isAnimationStarting: false,
           });
         }
       }, 4000);
@@ -45,12 +41,12 @@ export default function useDisplayAnimation(
     }
 
     if (
-      state.animationState.isAnimationStarting &&
-      state.animationState.animation == 'Typing'
+      animationState.isAnimationStarting &&
+      animationState.animation == 'Typing'
     ) {
       const typed = new Typed('#element', {
-        strings: state.contentState.content,
-        typeSpeed: 30,
+        strings: contentState.content,
+        typeSpeed: 50,
       });
 
       return () => {
@@ -58,14 +54,14 @@ export default function useDisplayAnimation(
       };
     }
   }, [
-    state.animationState.isAnimationStarting,
-    state.contentState.content,
-    state.animationState.animation,
+    animationState.isAnimationStarting,
+    contentState.content,
+    animationState.animation,
     setLineDisplayed,
     selectedAnimation,
-    state.animationState.theme,
-    dispatch,
     selectedFont,
     selectedFontSize,
+    animationState.theme,
+    updateAnimation,
   ]);
 }

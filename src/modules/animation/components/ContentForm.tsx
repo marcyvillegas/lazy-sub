@@ -2,21 +2,16 @@
 
 import React, { useState } from 'react';
 import { Form, Input, Select } from 'antd';
-import { ContentPayloadInterface } from '../interfaces/ContentPayloadInteface';
-import { useAnimationProvider } from '@/providers/AnimationProvider';
 import { convertArrayToContentString } from '@/utils/convertArrayToContentString';
+import { useAnimationStore } from '@/stores/animationStore';
 
-type PropsType = {
-    setContentPayload: (values: ContentPayloadInterface) => void
-}
 
-export default function ContentForm({ setContentPayload }: PropsType) {
+export default function ContentForm() {
+    const { contentState, updateContent } = useAnimationStore();
 
-    const { state } = useAnimationProvider()
+    const [initialSeparatorValue] = useState(contentState.separator)
 
-    const [initialSeparatorValue] = useState(state.contentState.separator)
-
-    const initialContentValue = convertArrayToContentString(state.contentState.content, state.contentState.separator)
+    const initialContentValue = convertArrayToContentString(contentState.content, contentState.separator)
 
     const [form] = Form.useForm()
 
@@ -24,14 +19,10 @@ export default function ContentForm({ setContentPayload }: PropsType) {
 
         const convertContentStringToArray = (allValues.content.trim()).split(`\n${allValues.separator}\n`)
 
-        const contentPayload = {
-            contentState: {
-                content: convertContentStringToArray,
-                separator: allValues.separator
-            }
-        }
-
-        setContentPayload(contentPayload)
+        updateContent({
+            content: convertContentStringToArray,
+            separator: allValues.separator
+        })
     }
 
     return (

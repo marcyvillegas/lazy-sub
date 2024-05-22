@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./global.css"
-import { AnimationProvider } from "@/providers/AnimationProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,9 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} m-5`}>
-        <AnimationProvider>
-          {children}
-        </AnimationProvider>
+        {children}
       </body>
     </html>
   );

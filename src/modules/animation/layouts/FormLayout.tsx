@@ -3,21 +3,16 @@
 import React, { useState } from 'react';
 import ContentForm from '../components/ContentForm';
 import AnimationForm from '../components/AnimationForm';
-import { ContentPayloadInterface } from '../interfaces/ContentPayloadInteface';
-import { useAnimationProvider } from '@/providers/AnimationProvider';
+import { useAnimationStore } from '@/stores/animationStore';
 
 export default function FormLayout() {
 
-    const [activateForm, setActiveForm] = useState<string>('Content')
-
-    const { state, onSubmitContent } = useAnimationProvider()
-
-    const [contentPayload, setContentPayload] = useState<ContentPayloadInterface>({ contentState: state.contentState })
+    const [activateForm, setActiveForm] = useState<string>('Content');
+    const { contentState, updateContent } = useAnimationStore();
 
     const handleRedirectToAnimation = () => {
-        if (contentPayload.contentState.content.length != 0
-            && contentPayload.contentState.content[0].trim() != "") {
-            onSubmitContent(contentPayload)
+        if (contentState.content.length != 0
+            && contentState.content[0].trim() != "") {
             return setActiveForm("Animation")
         }
     }
@@ -38,7 +33,7 @@ export default function FormLayout() {
 
             <div className='m-5'>
                 {activateForm == 'Content' ?
-                    <ContentForm setContentPayload={setContentPayload} />
+                    <ContentForm />
                     : <AnimationForm />}
             </div>
         </div>
