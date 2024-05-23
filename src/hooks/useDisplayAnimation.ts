@@ -70,5 +70,6 @@ export default function useDisplayAnimation(
     selectedTheme,
     setLineDisplayed,
     updateAnimation,
+    contentRef,
   ]);
 }
