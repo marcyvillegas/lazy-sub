@@ -25,8 +25,8 @@ interface AnimationStateInterface {
 type AnimationStore = {
   contentState: ContentStateInterface;
   animationState: AnimationStateInterface;
-  updateContent: (sample: any) => void;
-  updateAnimation: (sample: any) => void;
+  updateContent: (content: {}) => void;
+  updateAnimation: (animation: {}) => void;
 };
 
 const initialContentState: ContentStateInterface = {
@@ -50,12 +50,12 @@ const initialAnimationState: AnimationStateInterface = {
 export const useAnimationStore = create<AnimationStore>((set) => ({
   contentState: initialContentState,
   animationState: initialAnimationState,
-  updateContent: (sample) => {
-    set((state) => ({ contentState: { ...state.contentState, ...sample } }));
+  updateContent: (content) => {
+    set((state) => ({ contentState: { ...state.contentState, ...content } }));
   },
-  updateAnimation: (sample) => {
+  updateAnimation: (animation) => {
     set((state) => ({
-      animationState: { ...state.animationState, ...sample },
+      animationState: { ...state.animationState, ...animation },
     }));
   },
 }));

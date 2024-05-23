@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { LegacyRef, RefObject, useEffect, useState } from 'react';
 import Typed from 'typed.js';
 import { useAnimationStore } from '@/stores/animationStore';
 
@@ -8,7 +8,9 @@ export default function useDisplayAnimation(
   setLineDisplayed: React.Dispatch<React.SetStateAction<string>>,
   selectedAnimation: string,
   selectedFont: string,
-  selectedFontSize: number
+  selectedFontSize: number,
+  selectedTheme: string,
+  contentRef: any | null
 ) {
   const { contentState, animationState, updateAnimation } = useAnimationStore();
 
@@ -20,6 +22,10 @@ export default function useDisplayAnimation(
       animationState.isAnimationStarting &&
       animationState.animation != 'Typing'
     ) {
+      if (contentRef != null && contentRef.current.innerText == '') {
+        contentRef.current.innerText = content[0];
+      }
+
       setLineDisplayed(content[0]);
 
       const interval = setInterval(() => {
@@ -30,8 +36,6 @@ export default function useDisplayAnimation(
           contentNumber = 0;
 
           updateAnimation({
-            animation: animationState.animation,
-            theme: animationState.theme,
             isAnimationStarting: false,
           });
         }
@@ -44,9 +48,11 @@ export default function useDisplayAnimation(
       animationState.isAnimationStarting &&
       animationState.animation == 'Typing'
     ) {
+      const contentTyping = contentState.content;
       const typed = new Typed('#element', {
-        strings: contentState.content,
-        typeSpeed: 50,
+        strings: contentTyping,
+        typeSpeed: 40,
+        showCursor: false,
       });
 
       return () => {
@@ -57,11 +63,12 @@ export default function useDisplayAnimation(
     animationState.isAnimationStarting,
     contentState.content,
     animationState.animation,
-    setLineDisplayed,
+    animationState.theme,
     selectedAnimation,
     selectedFont,
     selectedFontSize,
-    animationState.theme,
+    selectedTheme,
+    setLineDisplayed,
     updateAnimation,
   ]);
 }

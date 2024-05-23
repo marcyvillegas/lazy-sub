@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, LegacyRef, RefObject } from "react";
 
 import { animationTypes, fontSizes, fonts, themes } from "../constants";
 import useDisplayAnimation from "@/hooks/useDisplayAnimation";
@@ -20,12 +20,16 @@ export default function GreenScreen() {
     const [classNameFontSize, setClassNameFontSize] = useState<string>('')
     const [lineDisplayed, setLineDisplayed] = useState<string>('')
 
+    const contentRef: React.LegacyRef<HTMLDivElement> | null = useRef(null);
+
     const { animationState } = useAnimationStore()
     useDisplayAnimation(
         setLineDisplayed,
         selectedAnimation,
         selectedFont,
-        selectedFontSize
+        selectedFontSize,
+        selectedTheme,
+        contentRef
     )
 
     useEffect(() => {
@@ -75,7 +79,7 @@ export default function GreenScreen() {
                 <div className={`${isDisplayingAnimation ? 'flex' : 'hidden'} ${classNameTheme.text} items-center w-3/5 ${classNameFontSize}`}>
                     <div
                         className={`${classNameAnimation} ${classNameTheme.style}`}
-                        id="element">
+                        id="element" ref={contentRef}>
                         {lineDisplayed}
                     </div>
                 </div>

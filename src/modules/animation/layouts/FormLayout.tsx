@@ -8,7 +8,12 @@ import { useAnimationStore } from '@/stores/animationStore';
 export default function FormLayout() {
 
     const [activateForm, setActiveForm] = useState<string>('Content');
-    const { contentState, updateContent } = useAnimationStore();
+    const { contentState, updateAnimation } = useAnimationStore();
+
+    const handleRedirectToContent = () => {
+        updateAnimation({ isAnimationStarting: false });
+        setActiveForm("Content");
+    }
 
     const handleRedirectToAnimation = () => {
         if (contentState.content.length != 0
@@ -21,7 +26,7 @@ export default function FormLayout() {
         <div className='bg-secondary-background col-span-12 mt-2 lg:mt-0 lg:col-span-4 rounded-md p-5'>
             <div className='flex justify-center'>
                 <div className={`bg-grey-tab py-2 w-full mx-2 font-bold rounded-sm cursor-pointer flex justify-center ${activateForm == 'Content' ? 'border-b-4 border-b-logo-green text-logo-green' : 'text-white-tab'}`}
-                    onClick={() => setActiveForm("Content")}>
+                    onClick={handleRedirectToContent}>
                     Content
                 </div>
 
