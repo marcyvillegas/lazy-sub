@@ -85,20 +85,19 @@ export default function GreenScreen() {
         <div className='col-span-12 lg:col-span-8'>
             <div className='bg-green-screen lg:me-5 h-[32rem] rounded-md flex justify-center'>
                 <div className={`${isDisplayingAnimation ? 'flex' : 'hidden'} ${classNameTheme.text} items-center w-3/5 ${classNameFontSize}`}>
-                    {selectedAnimation != 'Chat Bubble' &&
-                        <div
-                            className={`${classNameAnimation} ${classNameTheme.style}`}
-                            id="element" ref={contentRef}>
-                            {lineDisplayed}
-                        </div>}
+                    <div
+                        className={`${selectedAnimation == 'Chat Bubble' ? 'hidden' : 'flex'} ${classNameAnimation} ${classNameTheme.style}`}
+                        id="element" ref={contentRef}>
+                        {lineDisplayed}
+                    </div>
 
-                    <div className={` ${selectedAnimation == 'Chat Bubble' ? 'flex' : 'hidden'} flex-col`}>
+                    <div className={`${selectedAnimation == 'Chat Bubble' ? 'flex' : 'hidden'} text-left w-48 justify-center flex-col`}>
                         <div
-                            className={`${displayFistBubble ? 'block' : 'hidden'} ${classNameAnimation} ${classNameTheme.style} mb-2`}
+                            className={`${displayFistBubble ? 'block' : 'hidden'} ${classNameAnimation} ${classNameTheme.style} mb-2 w-max`}
                             id={`chat-bubble-${counterChatBubble}`}>
                         </div>
                         <div
-                            className={`${displaySecondBubble ? 'block' : 'hidden'} ${classNameAnimation} ${classNameTheme.style}`}
+                            className={`${displaySecondBubble ? 'block' : 'hidden'} ${classNameAnimation} ${classNameTheme.style} w-max`}
                             id={`chat-bubble-${counterChatBubble + 1}`}>
                         </div>
                     </div>

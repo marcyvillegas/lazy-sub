@@ -69,44 +69,70 @@ export default function useDisplayAnimation(
 
     // Chat bubble animation
     if (
+      animationState.isAnimationStarting == false ||
+      selectedFontSize ||
+      selectedTheme
+    ) {
+      setCounterChatBubble(0);
+    }
+
+    if (
       animationState.isAnimationStarting &&
       animationState.animation == 'Chat Bubble'
     ) {
       const contentChatBubble = contentState.content;
+      setDisplayFistBubble(true);
+      if (counterChatBubble == 0) {
+        setDisplaySecondBubble(false);
+      }
 
-      const intervalChatBubble = setInterval(() => {
-        if (counterChatBubble < contentChatBubble.length - 1) {
-          setCounterChatBubble(counterChatBubble + 1);
-        }
+      let typedChatBubble: Typed;
+      let secondTypedChatBubble: Typed;
 
-        setTimeout(() => {
-          setDisplayFistBubble(false);
-        }, 1000);
-      }, 4000);
-
-      // add delay and fade in and fade out <- later
-      const typedChatBubble = new Typed(`#chat-bubble-${counterChatBubble}`, {
+      typedChatBubble = new Typed(`#chat-bubble-${counterChatBubble}`, {
         strings: [contentChatBubble[counterChatBubble]],
         typeSpeed: 40,
         showCursor: false,
       });
 
-      let secondTypedChatBubble: Typed;
-      if (counterChatBubble < contentChatBubble.length - 1) {
+      const timeoutChatBubble = setTimeout(() => {
+        setDisplaySecondBubble(true);
+
         secondTypedChatBubble = new Typed(
           `#chat-bubble-${counterChatBubble + 1}`,
           {
             strings: [contentChatBubble[counterChatBubble + 1]],
             typeSpeed: 40,
             showCursor: false,
+            onComplete: () => {
+              setTimeout(() => {
+                setDisplayFistBubble(false);
+              }, 1000);
+
+              setTimeout(() => {
+                setDisplaySecondBubble(false);
+              }, 1500);
+
+              if (counterChatBubble + 1 < contentChatBubble.length - 1) {
+                setTimeout(() => {
+                  setCounterChatBubble((prev) => prev + 2);
+                }, 1600);
+              }
+            },
           }
         );
-      }
+      }, 3000);
 
       return () => {
-        clearInterval(intervalChatBubble);
-        typedChatBubble.destroy();
-        secondTypedChatBubble.destroy();
+        if (secondTypedChatBubble) {
+          secondTypedChatBubble.destroy();
+        }
+
+        if (typedChatBubble) {
+          typedChatBubble.destroy();
+        }
+
+        clearTimeout(timeoutChatBubble);
       };
     }
   }, [
@@ -123,5 +149,7 @@ export default function useDisplayAnimation(
     contentRef,
     counterChatBubble,
     setCounterChatBubble,
+    setDisplayFistBubble,
+    setDisplaySecondBubble,
   ]);
 }
