@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Typed from 'typed.js';
 import { useAnimationStore } from '@/stores/animationStore';
 
@@ -68,11 +68,7 @@ export default function useDisplayAnimation(
     }
 
     // Chat bubble animation
-    if (
-      animationState.isAnimationStarting == false ||
-      selectedFontSize ||
-      selectedTheme
-    ) {
+    if (animationState.isAnimationStarting == false) {
       setCounterChatBubble(0);
     }
 
