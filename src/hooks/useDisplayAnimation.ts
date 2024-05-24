@@ -1,6 +1,6 @@
 'use client';
 
-import { LegacyRef, RefObject, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Typed from 'typed.js';
 import { useAnimationStore } from '@/stores/animationStore';
 
@@ -10,7 +10,11 @@ export default function useDisplayAnimation(
   selectedFont: string,
   selectedFontSize: number,
   selectedTheme: string,
-  contentRef: any | null
+  contentRef: any | null,
+  counterChatBubble: number,
+  setCounterChatBubble: React.Dispatch<React.SetStateAction<number>>,
+  setDisplayFistBubble: React.Dispatch<React.SetStateAction<boolean>>,
+  setDisplaySecondBubble: React.Dispatch<React.SetStateAction<boolean>>
 ) {
   const { contentState, animationState, updateAnimation } = useAnimationStore();
 
@@ -18,15 +22,17 @@ export default function useDisplayAnimation(
     const content = contentState.content;
     let contentNumber = 1;
 
+    // Default and bounce animation
     if (
       animationState.isAnimationStarting &&
-      animationState.animation != 'Typing'
+      !['Typing', 'Chat Bubble'].includes(animationState.animation)
     ) {
-      if (contentRef != null && contentRef.current.innerText == '') {
+      console.log('SAMPLE');
+      setLineDisplayed(content[0]);
+
+      if (contentRef != null && contentRef?.current?.innerText == '') {
         contentRef.current.innerText = content[0];
       }
-
-      setLineDisplayed(content[0]);
 
       const interval = setInterval(() => {
         setLineDisplayed(content[contentNumber]);
@@ -44,6 +50,7 @@ export default function useDisplayAnimation(
       return () => clearInterval(interval);
     }
 
+    // Typing animation
     if (
       animationState.isAnimationStarting &&
       animationState.animation == 'Typing'
@@ -59,6 +66,49 @@ export default function useDisplayAnimation(
         typed.destroy();
       };
     }
+
+    // Chat bubble animation
+    if (
+      animationState.isAnimationStarting &&
+      animationState.animation == 'Chat Bubble'
+    ) {
+      const contentChatBubble = contentState.content;
+
+      const intervalChatBubble = setInterval(() => {
+        if (counterChatBubble < contentChatBubble.length - 1) {
+          setCounterChatBubble(counterChatBubble + 1);
+        }
+
+        setTimeout(() => {
+          setDisplayFistBubble(false);
+        }, 1000);
+      }, 4000);
+
+      // add delay and fade in and fade out <- later
+      const typedChatBubble = new Typed(`#chat-bubble-${counterChatBubble}`, {
+        strings: [contentChatBubble[counterChatBubble]],
+        typeSpeed: 40,
+        showCursor: false,
+      });
+
+      let secondTypedChatBubble: Typed;
+      if (counterChatBubble < contentChatBubble.length - 1) {
+        secondTypedChatBubble = new Typed(
+          `#chat-bubble-${counterChatBubble + 1}`,
+          {
+            strings: [contentChatBubble[counterChatBubble + 1]],
+            typeSpeed: 40,
+            showCursor: false,
+          }
+        );
+      }
+
+      return () => {
+        clearInterval(intervalChatBubble);
+        typedChatBubble.destroy();
+        secondTypedChatBubble.destroy();
+      };
+    }
   }, [
     animationState.isAnimationStarting,
     contentState.content,
@@ -71,5 +121,7 @@ export default function useDisplayAnimation(
     setLineDisplayed,
     updateAnimation,
     contentRef,
+    counterChatBubble,
+    setCounterChatBubble,
   ]);
 }

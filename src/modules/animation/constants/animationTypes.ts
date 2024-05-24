@@ -10,6 +10,9 @@ export const animationTypes = [
   {
     name: 'Typing',
     style: '',
-    isComplex: true,
+  },
+  {
+    name: 'Chat Bubble',
+    style: '',
   },
 ];

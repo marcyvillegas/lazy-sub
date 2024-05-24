@@ -22,6 +22,10 @@ export default function GreenScreen() {
 
     const contentRef: React.LegacyRef<HTMLDivElement> | null = useRef(null);
 
+    const [counterChatBubble, setCounterChatBubble] = useState<number>(0);
+    const [displayFistBubble, setDisplayFistBubble] = useState<boolean>(true);
+    const [displaySecondBubble, setDisplaySecondBubble] = useState<boolean>(true);
+
     const { animationState } = useAnimationStore()
     useDisplayAnimation(
         setLineDisplayed,
@@ -29,7 +33,11 @@ export default function GreenScreen() {
         selectedFont,
         selectedFontSize,
         selectedTheme,
-        contentRef
+        contentRef,
+        counterChatBubble,
+        setCounterChatBubble,
+        setDisplayFistBubble,
+        setDisplaySecondBubble
     )
 
     useEffect(() => {
@@ -77,10 +85,22 @@ export default function GreenScreen() {
         <div className='col-span-12 lg:col-span-8'>
             <div className='bg-green-screen lg:me-5 h-[32rem] rounded-md flex justify-center'>
                 <div className={`${isDisplayingAnimation ? 'flex' : 'hidden'} ${classNameTheme.text} items-center w-3/5 ${classNameFontSize}`}>
-                    <div
-                        className={`${classNameAnimation} ${classNameTheme.style}`}
-                        id="element" ref={contentRef}>
-                        {lineDisplayed}
+                    {selectedAnimation != 'Chat Bubble' &&
+                        <div
+                            className={`${classNameAnimation} ${classNameTheme.style}`}
+                            id="element" ref={contentRef}>
+                            {lineDisplayed}
+                        </div>}
+
+                    <div className={` ${selectedAnimation == 'Chat Bubble' ? 'flex' : 'hidden'} flex-col`}>
+                        <div
+                            className={`${displayFistBubble ? 'block' : 'hidden'} ${classNameAnimation} ${classNameTheme.style} mb-2`}
+                            id={`chat-bubble-${counterChatBubble}`}>
+                        </div>
+                        <div
+                            className={`${displaySecondBubble ? 'block' : 'hidden'} ${classNameAnimation} ${classNameTheme.style}`}
+                            id={`chat-bubble-${counterChatBubble + 1}`}>
+                        </div>
                     </div>
                 </div>
             </div>
