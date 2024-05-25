@@ -60,6 +60,11 @@ export default function useDisplayAnimation(
         strings: contentTyping,
         typeSpeed: 40,
         showCursor: false,
+        onComplete: () => {
+          setTimeout(() => {
+            updateAnimation({ isAnimationStarting: false });
+          }, 1000);
+        },
       });
 
       return () => {
@@ -91,15 +96,16 @@ export default function useDisplayAnimation(
         typeSpeed: 40,
         showCursor: false,
         onComplete: () => {
-          if (!(counterChatBubble + 1 < contentChatBubble.length - 1)) {
+          if (!(counterChatBubble < contentChatBubble.length - 1)) {
             setTimeout(() => {
               setDisplayFistBubble(false);
+              updateAnimation({ isAnimationStarting: false });
             }, 1000);
           }
         },
       });
 
-      if (counterChatBubble + 1 < contentChatBubble.length - 1) {
+      if (counterChatBubble < contentChatBubble.length - 1) {
         timeoutChatBubble = setTimeout(() => {
           setDisplaySecondBubble(true);
 
@@ -116,6 +122,10 @@ export default function useDisplayAnimation(
 
                 setTimeout(() => {
                   setDisplaySecondBubble(false);
+
+                  if (counterChatBubble + 1 == contentChatBubble.length - 1) {
+                    updateAnimation({ isAnimationStarting: false });
+                  }
                 }, 1500);
 
                 if (counterChatBubble + 1 < contentChatBubble.length - 1) {

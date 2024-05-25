@@ -1,10 +1,11 @@
 'use client'
 
-import React, { useEffect, useState, useRef, LegacyRef, RefObject } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import { animationTypes, fontSizes, fonts, themes } from "../constants";
 import useDisplayAnimation from "@/hooks/useDisplayAnimation";
 import { useAnimationStore } from "@/stores/animationStore";
+import "@/modules/animation/animation.css";
 
 export default function GreenScreen() {
 
@@ -93,11 +94,11 @@ export default function GreenScreen() {
 
                     <div className={`${selectedAnimation == 'Chat Bubble' ? 'flex' : 'hidden'} text-left w-48 justify-center flex-col`}>
                         <div
-                            className={`${displayFistBubble ? 'block' : 'hidden'} ${classNameAnimation} ${classNameTheme.style} mb-2 w-max`}
+                            className={`${displayFistBubble ? 'block fade-in' : 'hidden'} ${classNameAnimation} ${classNameTheme.style} mb-2 w-max`}
                             id={`chat-bubble-${counterChatBubble}`}>
                         </div>
                         <div
-                            className={`${displaySecondBubble ? 'block' : 'hidden'} ${classNameAnimation} ${classNameTheme.style} w-max`}
+                            className={`${displaySecondBubble ? 'block fade-in' : 'hidden'} ${classNameAnimation} ${classNameTheme.style} w-max`}
                             id={`chat-bubble-${counterChatBubble + 1}`}>
                         </div>
                     </div>
