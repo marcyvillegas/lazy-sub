@@ -81,7 +81,10 @@ export default function useDisplayAnimation(
       animationState.isAnimationStarting &&
       animationState.animation == 'Chat Bubble'
     ) {
-      const contentChatBubble = contentState.content;
+      let contentChatBubble = contentState.content;
+
+      // add logic for inserting new lines on a content item
+
       setDisplayFistBubble(true);
       if (counterChatBubble == 0) {
         setDisplaySecondBubble(false);

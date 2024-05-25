@@ -92,13 +92,13 @@ export default function GreenScreen() {
                         {lineDisplayed}
                     </div>
 
-                    <div className={`${selectedAnimation == 'Chat Bubble' ? 'flex' : 'hidden'} text-left w-48 justify-center flex-col`}>
+                    <div className={`${selectedAnimation == 'Chat Bubble' ? 'flex' : 'hidden'} text-left w-full justify-center flex-col break-words`}>
                         <div
-                            className={`${displayFistBubble ? 'block fade-in' : 'hidden'} ${classNameAnimation} ${classNameTheme.style} mb-2 w-max`}
+                            className={`${displayFistBubble ? 'block' : 'hidden'} ${classNameAnimation} ${classNameTheme.style} mb-2 break-words dynamic-width`}
                             id={`chat-bubble-${counterChatBubble}`}>
                         </div>
                         <div
-                            className={`${displaySecondBubble ? 'block fade-in' : 'hidden'} ${classNameAnimation} ${classNameTheme.style} w-max`}
+                            className={`${displaySecondBubble ? 'block' : 'hidden'} ${classNameAnimation} ${classNameTheme.style} break-words dynamic-width`}
                             id={`chat-bubble-${counterChatBubble + 1}`}>
                         </div>
                     </div>
