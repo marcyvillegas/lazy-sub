@@ -84,40 +84,50 @@ export default function useDisplayAnimation(
 
       let typedChatBubble: Typed;
       let secondTypedChatBubble: Typed;
+      let timeoutChatBubble: NodeJS.Timeout;
 
       typedChatBubble = new Typed(`#chat-bubble-${counterChatBubble}`, {
         strings: [contentChatBubble[counterChatBubble]],
         typeSpeed: 40,
         showCursor: false,
+        onComplete: () => {
+          if (!(counterChatBubble + 1 < contentChatBubble.length - 1)) {
+            setTimeout(() => {
+              setDisplayFistBubble(false);
+            }, 1000);
+          }
+        },
       });
 
-      const timeoutChatBubble = setTimeout(() => {
-        setDisplaySecondBubble(true);
+      if (counterChatBubble + 1 < contentChatBubble.length - 1) {
+        timeoutChatBubble = setTimeout(() => {
+          setDisplaySecondBubble(true);
 
-        secondTypedChatBubble = new Typed(
-          `#chat-bubble-${counterChatBubble + 1}`,
-          {
-            strings: [contentChatBubble[counterChatBubble + 1]],
-            typeSpeed: 40,
-            showCursor: false,
-            onComplete: () => {
-              setTimeout(() => {
-                setDisplayFistBubble(false);
-              }, 1000);
-
-              setTimeout(() => {
-                setDisplaySecondBubble(false);
-              }, 1500);
-
-              if (counterChatBubble + 1 < contentChatBubble.length - 1) {
+          secondTypedChatBubble = new Typed(
+            `#chat-bubble-${counterChatBubble + 1}`,
+            {
+              strings: [contentChatBubble[counterChatBubble + 1]],
+              typeSpeed: 40,
+              showCursor: false,
+              onComplete: () => {
                 setTimeout(() => {
-                  setCounterChatBubble((prev) => prev + 2);
-                }, 1600);
-              }
-            },
-          }
-        );
-      }, 3000);
+                  setDisplayFistBubble(false);
+                }, 1000);
+
+                setTimeout(() => {
+                  setDisplaySecondBubble(false);
+                }, 1500);
+
+                if (counterChatBubble + 1 < contentChatBubble.length - 1) {
+                  setTimeout(() => {
+                    setCounterChatBubble((prev) => prev + 2);
+                  }, 1600);
+                }
+              },
+            }
+          );
+        }, 3000);
+      }
 
       return () => {
         if (secondTypedChatBubble) {
