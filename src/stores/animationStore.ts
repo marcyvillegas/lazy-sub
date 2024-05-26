@@ -21,6 +21,7 @@ export interface AnimationStateInterface {
   theme: string;
   font: string;
   fontSize: number;
+  startEditing: boolean;
 }
 
 type AnimationStore = {
@@ -47,6 +48,7 @@ const initialAnimationState: AnimationStateInterface = {
   theme: themes[0].name,
   font: fonts[0].name,
   fontSize: fontSizes[0].name,
+  startEditing: false,
 };
 
 export const useAnimationStore = create<AnimationStore>((set) => ({

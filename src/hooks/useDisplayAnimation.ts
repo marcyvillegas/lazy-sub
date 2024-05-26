@@ -64,6 +64,7 @@ export default function useDisplayAnimation(
         onComplete: () => {
           setTimeout(() => {
             setDisplayTyping(false);
+            updateAnimation({ isAnimationStarting: false });
           }, 1500);
         },
       });
@@ -83,8 +84,6 @@ export default function useDisplayAnimation(
       animationState.animation == 'Chat Bubble'
     ) {
       let contentChatBubble = contentState.content;
-
-      // add logic for inserting new lines on a content item
 
       setDisplayFistBubble(true);
       if (counterChatBubble == 0) {
@@ -171,5 +170,6 @@ export default function useDisplayAnimation(
     setCounterChatBubble,
     setDisplayFistBubble,
     setDisplaySecondBubble,
+    setDisplayTyping,
   ]);
 }

@@ -22,16 +22,26 @@ export default function AnimationForm() {
     const [initialFontSizeValue, setInitialFontSizeValue] = useState(animationState.fontSize)
     const [isResetClicked, setIsResetClicked] = useState(false)
 
+    const [existingLocalStorage, setExistingLocalStorage] = useState<boolean>(false)
+
     const [form] = Form.useForm()
 
     useEffect(() => {
-
         if (typeof window !== 'undefined') {
             const existingState = localStorage.getItem('content-animation-state')
                 ? JSON.parse(localStorage.getItem('content-animation-state')!)
                 : false;
 
+            if (existingState) setExistingLocalStorage(true)
+
             const initialState = existingState?.animationState || animationState;
+
+            updateAnimation({
+                animation: initialState.animation,
+                theme: initialState.theme,
+                font: initialState.font,
+                fontSize: initialState.fontSize
+            })
 
             form.resetFields()
             setInitialAnimationValue(initialState.animation);
@@ -39,7 +49,26 @@ export default function AnimationForm() {
             setInitialFontValue(initialState.font);
             setInitialFontSizeValue(initialState.fontSize);
         }
-    }, [animationState.animation, animationState.font, animationState.fontSize, animationState.theme, form, initialAnimationValue, initialThemeValue, initialFontValue, initialFontSizeValue, animationState]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        form.setFieldsValue({ animation: initialAnimationValue, theme: initialThemeValue, font: initialFontValue, fontSize: initialFontSizeValue });
+
+        if (animationState.startEditing && !existingLocalStorage) {
+            form.setFieldsValue({
+                animation: animationState.animation,
+                theme: animationState.theme,
+                font: animationState.font,
+                fontSize: animationState.fontSize
+            });
+            setInitialAnimationValue(animationState.animation);
+            setInitialThemeValue(animationState.theme);
+            setInitialFontValue(animationState.font);
+            setInitialFontSizeValue(animationState.fontSize);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [form, initialAnimationValue, initialThemeValue, initialFontValue, initialFontSizeValue, animationState.startEditing,]);
 
     const [messageApi, contextHolder] = message.useMessage();
     const showSuccessMessage = () => {
@@ -107,7 +136,7 @@ export default function AnimationForm() {
                     requiredMark={false}
                     layout='vertical'
                     form={form}
-                    initialValues={{ animation: initialAnimationValue, theme: initialThemeValue, font: initialFontValue, fontSize: initialFontSizeValue }}
+                    // initialValues={{ animation: initialAnimationValue, theme: initialThemeValue, font: initialFontValue, fontSize: initialFontSizeValue }}
                     onChange={handleOnClick}
                 >
                     <Form.Item
