@@ -31,29 +31,21 @@ export default function AnimationForm() {
                 ? JSON.parse(localStorage.getItem('content-animation-state')!)
                 : false;
 
-            if (existingState) {
-                form.resetFields()
-                setInitialAnimationValue(existingState.animationState.animation);
-                setInitialThemeValue(existingState.animationState.theme);
-                setInitialFontValue(existingState.animationState.font);
-                setInitialFontSizeValue(existingState.animationState.fontSize);
-            }
+            const initialState = existingState?.animationState || animationState;
 
-            if (!existingState) {
-                form.resetFields()
-                setInitialAnimationValue(animationState.animation);
-                setInitialThemeValue(animationState.theme);
-                setInitialFontValue(animationState.font);
-                setInitialFontSizeValue(animationState.fontSize);
-            }
+            form.resetFields()
+            setInitialAnimationValue(initialState.animation);
+            setInitialThemeValue(initialState.theme);
+            setInitialFontValue(initialState.font);
+            setInitialFontSizeValue(initialState.fontSize);
         }
-    }, [animationState.animation, animationState.font, animationState.fontSize, animationState.theme, form, initialAnimationValue, initialThemeValue, initialFontValue, initialFontSizeValue]);
+    }, [animationState.animation, animationState.font, animationState.fontSize, animationState.theme, form, initialAnimationValue, initialThemeValue, initialFontValue, initialFontSizeValue, animationState]);
 
     const [messageApi, contextHolder] = message.useMessage();
     const showSuccessMessage = () => {
         messageApi.open({
             type: 'success',
-            content: 'Saved from local storage!',
+            content: 'Saved in local storage!',
         });
     };
 

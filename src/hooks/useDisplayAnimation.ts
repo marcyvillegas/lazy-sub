@@ -14,7 +14,8 @@ export default function useDisplayAnimation(
   counterChatBubble: number,
   setCounterChatBubble: React.Dispatch<React.SetStateAction<number>>,
   setDisplayFistBubble: React.Dispatch<React.SetStateAction<boolean>>,
-  setDisplaySecondBubble: React.Dispatch<React.SetStateAction<boolean>>
+  setDisplaySecondBubble: React.Dispatch<React.SetStateAction<boolean>>,
+  setDisplayTyping: React.Dispatch<React.SetStateAction<boolean>>
 ) {
   const { contentState, animationState, updateAnimation } = useAnimationStore();
 
@@ -54,6 +55,7 @@ export default function useDisplayAnimation(
       animationState.isAnimationStarting &&
       animationState.animation == 'Typing'
     ) {
+      setDisplayTyping(true);
       const contentTyping = contentState.content;
       const typed = new Typed('#element', {
         strings: contentTyping,
@@ -61,8 +63,8 @@ export default function useDisplayAnimation(
         showCursor: false,
         onComplete: () => {
           setTimeout(() => {
-            updateAnimation({ isAnimationStarting: false });
-          }, 1000);
+            setDisplayTyping(false);
+          }, 1500);
         },
       });
 

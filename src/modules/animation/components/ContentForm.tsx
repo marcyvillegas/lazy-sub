@@ -11,6 +11,7 @@ export default function ContentForm() {
 
     const [initialSeparatorValue, setInitialSeparatorValue] = useState<any>(null)
     const [initialContentValue, setInitialContentValue] = useState<any>(null)
+    const [existingLocalStorage, setExistingLocalStorage] = useState<boolean>(false)
 
     const [form] = Form.useForm()
 
@@ -20,13 +21,20 @@ export default function ContentForm() {
                 ? JSON.parse(localStorage.getItem('content-animation-state')!)
                 : null;
 
-            const initialState = existingState.contentState || contentState;
+            if (existingState) setExistingLocalStorage(true)
+
+            const initialState = existingState?.contentState || contentState;
+
+            updateContent({
+                content: initialState.content,
+                separator: initialState.separator,
+            })
 
             form.resetFields();
             setInitialSeparatorValue(initialState.separator);
             setInitialContentValue(convertArrayToContentString(initialState.content, initialState.separator));
         }
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -35,7 +43,7 @@ export default function ContentForm() {
             separator: initialSeparatorValue,
         });
 
-        if (contentState.startEditing) {
+        if (contentState.startEditing && !existingLocalStorage) {
             form.setFieldsValue({
                 content: convertArrayToContentString(contentState.content, contentState.separator),
                 separator: contentState.separator,
@@ -43,6 +51,7 @@ export default function ContentForm() {
             setInitialSeparatorValue(contentState.separator);
             setInitialContentValue(convertArrayToContentString(contentState.content, contentState.separator));
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [form, initialContentValue, initialSeparatorValue, contentState.startEditing]);
 
 
@@ -53,8 +62,11 @@ export default function ContentForm() {
         updateContent({
             content: convertContentStringToArray,
             separator: allValues.separator,
-            startEditing: true
         })
+    }
+
+    const handleOnClick = () => {
+        updateContent({ startEditing: true })
     }
 
     return (
@@ -67,6 +79,7 @@ export default function ContentForm() {
                 layout='vertical'
                 form={form}
                 onValuesChange={onValuesChange}
+                onClick={handleOnClick}
             >
                 <Form.Item
                     name='content'

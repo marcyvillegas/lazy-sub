@@ -26,6 +26,7 @@ export default function GreenScreen() {
     const [counterChatBubble, setCounterChatBubble] = useState<number>(0);
     const [displayFistBubble, setDisplayFistBubble] = useState<boolean>(true);
     const [displaySecondBubble, setDisplaySecondBubble] = useState<boolean>(true);
+    const [displayTyping, setDisplayTyping] = useState<boolean>(true);
 
     const { animationState } = useAnimationStore()
     useDisplayAnimation(
@@ -38,7 +39,8 @@ export default function GreenScreen() {
         counterChatBubble,
         setCounterChatBubble,
         setDisplayFistBubble,
-        setDisplaySecondBubble
+        setDisplaySecondBubble,
+        setDisplayTyping
     )
 
     useEffect(() => {
@@ -87,7 +89,7 @@ export default function GreenScreen() {
             <div className='bg-green-screen lg:me-5 h-[32rem] rounded-md flex justify-center'>
                 <div className={`${isDisplayingAnimation ? 'flex' : 'hidden'} ${classNameTheme.text} items-center w-3/5 ${classNameFontSize}`}>
                     <div
-                        className={`${selectedAnimation == 'Chat Bubble' ? 'hidden' : 'flex'} ${classNameAnimation} ${classNameTheme.style}`}
+                        className={`${displayTyping ? 'block' : 'hidden'} ${selectedAnimation == 'Chat Bubble' ? 'hidden' : 'flex'} ${classNameAnimation} ${classNameTheme.style}`}
                         id="element" ref={contentRef}>
                         {lineDisplayed}
                     </div>
