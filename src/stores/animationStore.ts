@@ -8,13 +8,14 @@ import {
 } from '@/modules/animation/constants';
 
 // interface for content
-interface ContentStateInterface {
+export interface ContentStateInterface {
   content: string[];
   separator: string;
+  startEditing: boolean;
 }
 
 // interface for animation
-interface AnimationStateInterface {
+export interface AnimationStateInterface {
   animation: string;
   isAnimationStarting: boolean;
   theme: string;
@@ -37,6 +38,7 @@ const initialContentState: ContentStateInterface = {
     'Start to animate using LazySub!',
   ],
   separator: '=',
+  startEditing: false,
 };
 
 const initialAnimationState: AnimationStateInterface = {

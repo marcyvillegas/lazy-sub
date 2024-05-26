@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, Select } from 'antd';
 import { convertArrayToContentString } from '@/utils/convertArrayToContentString';
 import { useAnimationStore } from '@/stores/animationStore';
@@ -9,11 +9,42 @@ import { useAnimationStore } from '@/stores/animationStore';
 export default function ContentForm() {
     const { contentState, updateContent } = useAnimationStore();
 
-    const [initialSeparatorValue] = useState(contentState.separator)
-
-    const initialContentValue = convertArrayToContentString(contentState.content, contentState.separator)
+    const [initialSeparatorValue, setInitialSeparatorValue] = useState<any>(null)
+    const [initialContentValue, setInitialContentValue] = useState<any>(null)
 
     const [form] = Form.useForm()
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const existingState = localStorage.getItem('content-animation-state')
+                ? JSON.parse(localStorage.getItem('content-animation-state')!)
+                : null;
+
+            const initialState = existingState.contentState || contentState;
+
+            form.resetFields();
+            setInitialSeparatorValue(initialState.separator);
+            setInitialContentValue(convertArrayToContentString(initialState.content, initialState.separator));
+        }
+
+    }, []);
+
+    useEffect(() => {
+        form.setFieldsValue({
+            content: initialContentValue,
+            separator: initialSeparatorValue,
+        });
+
+        if (contentState.startEditing) {
+            form.setFieldsValue({
+                content: convertArrayToContentString(contentState.content, contentState.separator),
+                separator: contentState.separator,
+            });
+            setInitialSeparatorValue(contentState.separator);
+            setInitialContentValue(convertArrayToContentString(contentState.content, contentState.separator));
+        }
+    }, [form, initialContentValue, initialSeparatorValue, contentState.startEditing]);
+
 
     const onValuesChange = (changedValues: any, allValues: { content: string, separator: string }) => {
 
@@ -21,7 +52,8 @@ export default function ContentForm() {
 
         updateContent({
             content: convertContentStringToArray,
-            separator: allValues.separator
+            separator: allValues.separator,
+            startEditing: true
         })
     }
 
@@ -35,7 +67,6 @@ export default function ContentForm() {
                 layout='vertical'
                 form={form}
                 onValuesChange={onValuesChange}
-                initialValues={{ content: initialContentValue, separator: initialSeparatorValue }}
             >
                 <Form.Item
                     name='content'
