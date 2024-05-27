@@ -7,6 +7,7 @@ import { ROUTES } from '@/enums/routes';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation'
 import './menu.css'
+import { useAnimationStore } from '@/stores/animationStore';
 
 export default function Menu() {
 
@@ -14,6 +15,8 @@ export default function Menu() {
 
     const router = useRouter()
     const pathname = usePathname()
+
+    const { updateAnimation } = useAnimationStore();
 
     const routes = [
         {
@@ -33,6 +36,7 @@ export default function Menu() {
     const redirect = (route: string): void => {
         router.push(route)
         setIsMenuOpen(false)
+        updateAnimation({ isAnimationStarting: false })
     }
 
     const displayMenuItems = routes.map((item) =>

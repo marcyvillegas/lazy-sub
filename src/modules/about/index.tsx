@@ -10,7 +10,7 @@ export default function About() {
                 👉 Type the text content <br></br>
                 👉 Pick an animation and text design <br></br>
                 👉 Screen record the text animation <br></br>
-                👉 Remove the background when editing in video editor
+                👉 Remove the background when editing in a video editor
             </div>
 
             <hr />

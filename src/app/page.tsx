@@ -1,6 +1,3 @@
+import Animation from "@/modules/animation";
 
-export default function Home() {
-  return (
-    <div></div>
-  );
-}
+export default Animation
