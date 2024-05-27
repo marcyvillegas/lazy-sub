@@ -1,3 +1,3 @@
-export default function About() {
-    return <h1></h1>
-}
+import About from "@/modules/about";
+
+export default About

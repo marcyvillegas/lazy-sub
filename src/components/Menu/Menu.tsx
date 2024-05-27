@@ -21,7 +21,7 @@ export default function Menu() {
             route: ROUTES.ANIMATE
         },
         {
-            label: "AI Examples",
+            label: "Examples",
             route: ROUTES.EXAMPLES
         },
         {
