@@ -1,3 +1,3 @@
-export default function Examples() {
-    return <h1></h1>
-}
+import Examples from "@/modules/examples";
+
+export default Examples
