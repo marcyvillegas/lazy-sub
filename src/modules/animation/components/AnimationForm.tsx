@@ -36,18 +36,20 @@ export default function AnimationForm() {
 
             const initialState = existingState?.animationState || animationState;
 
-            updateAnimation({
-                animation: initialState.animation,
-                theme: initialState.theme,
-                font: initialState.font,
-                fontSize: initialState.fontSize
-            })
+            if (!animationState.startEditing) {
+                updateAnimation({
+                    animation: initialState.animation,
+                    theme: initialState.theme,
+                    font: initialState.font,
+                    fontSize: initialState.fontSize
+                })
 
-            form.resetFields()
-            setInitialAnimationValue(initialState.animation);
-            setInitialThemeValue(initialState.theme);
-            setInitialFontValue(initialState.font);
-            setInitialFontSizeValue(initialState.fontSize);
+                form.resetFields()
+                setInitialAnimationValue(initialState.animation);
+                setInitialThemeValue(initialState.theme);
+                setInitialFontValue(initialState.font);
+                setInitialFontSizeValue(initialState.fontSize);
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -125,6 +127,10 @@ export default function AnimationForm() {
         }, 200);
     }
 
+    const handleOnClickForm = () => {
+        updateAnimation({ startEditing: true })
+    }
+
     return (
         <>
             {contextHolder}
@@ -136,11 +142,11 @@ export default function AnimationForm() {
                     requiredMark={false}
                     layout='vertical'
                     form={form}
-                    // initialValues={{ animation: initialAnimationValue, theme: initialThemeValue, font: initialFontValue, fontSize: initialFontSizeValue }}
                     onChange={handleOnClick}
+                    onClick={handleOnClickForm}
                 >
                     <Form.Item
-                        label='Animation'
+                        label={<label style={{ color: "#DEDEDE", fontWeight: "bold", fontSize: "1rem" }}>Animation</label>}
                         name='animation'
                         id='animation-id'
                     >
@@ -152,8 +158,7 @@ export default function AnimationForm() {
                     </Form.Item>
 
                     <Form.Item
-                        label='Theme'
-                        name='theme'
+                        label={<label style={{ color: "#DEDEDE", fontWeight: "bold", fontSize: "1rem" }}>Theme</label>} name='theme'
                         id='theme-id'
                     >
                         <Select onChange={handleChangeTheme}>
@@ -163,33 +168,17 @@ export default function AnimationForm() {
                         </Select>
                     </Form.Item>
 
-                    <div className='grid lg:grid-cols-4 grid-cols-12 gap-2'>
-                        {/* <Form.Item
-                        label='Font'
-                        name='font'
-                        id='font-id'
-                        className='col-span-12 lg:col-span-2'
+                    <Form.Item
+                        label={<label style={{ color: "#DEDEDE", fontWeight: "bold", fontSize: "1rem" }}>Size</label>} name='fontSize'
+                        id='font-size-id'
+                        className='col-span-12'
                     >
-                        <Select onChange={handleChangeFont} className='w-full'>
-                            {fonts.map((item) => (
+                        <Select onChange={handleChangeFontSize} className='w-full'>
+                            {fontSizes.map((item) => (
                                 <Select.Option key={item.name} value={item.name}>{item.name}</Select.Option>
                             ))}
                         </Select>
-                    </Form.Item> */}
-
-                        <Form.Item
-                            label='Size'
-                            name='fontSize'
-                            id='font-size-id'
-                            className='col-span-12'
-                        >
-                            <Select onChange={handleChangeFontSize} className='w-full'>
-                                {fontSizes.map((item) => (
-                                    <Select.Option key={item.name} value={item.name}>{item.name}</Select.Option>
-                                ))}
-                            </Select>
-                        </Form.Item>
-                    </div>
+                    </Form.Item>
 
                     <div className='flex justify-between'>
                         <div>

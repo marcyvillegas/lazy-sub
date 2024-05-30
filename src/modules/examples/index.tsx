@@ -1,7 +1,7 @@
 export default function Examples() {
     return (
         <div className="p-7">
-            <div className="flex justify-center text-center text-main-white font-semibold">
+            <div className="text-center text-main-white font-semibold">
                 <div>Check out some examples of text animations from LazySub 👀</div>
                 <div>You can also submit your videos here to be featured in this page!</div>
             </div>
