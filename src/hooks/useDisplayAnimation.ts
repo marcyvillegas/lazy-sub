@@ -28,6 +28,7 @@ export default function useDisplayAnimation(
       animationState.isAnimationStarting &&
       !['Typing', 'Chat Bubble'].includes(animationState.animation)
     ) {
+      setDisplayTyping(false);
       setLineDisplayed(content[0]);
 
       if (contentRef != null && contentRef?.current?.innerText == '') {

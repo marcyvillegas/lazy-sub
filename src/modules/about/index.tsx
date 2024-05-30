@@ -25,7 +25,7 @@ export default function About() {
             </div>
 
             <div>
-                I plan to add more features in the future.  <Link href={'https://forms.gle/KkUyWqFiQkakFpPt8'} target="_blank"><span className="underline decoration-logo-green decoration-2">Feel free to give suggestions, feedback, feature request or bug report!</span></Link> You can also check the source code <Link href={'https://github.com/marcyvillegas/lazy-sub'} target="_blank"><span className="underline decoration-logo-green decoration-2">here</span></Link>
+                I plan to polish this project and add more features in the future.  <Link href={'https://forms.gle/KkUyWqFiQkakFpPt8'} target="_blank"><span className="underline decoration-logo-green decoration-2">Feel free to give suggestions, feedback, feature request or bug report!</span></Link> You can also check the source code <Link href={'https://github.com/marcyvillegas/lazy-sub'} target="_blank"><span className="underline decoration-logo-green decoration-2">here</span></Link>
             </div>
 
             <div>
