@@ -1,13 +1,3 @@
-:where(.css-dev-only-do-not-override-1qhpsh8).ant-input-outlined.ant-input-status-error:not(.ant-input-disabled) {
-    border-color: #FF6347 !important;
-}
-
-:where(.css-dev-only-do-not-override-1qhpsh8).ant-form-vertical .ant-form-item-label>label {
-    color: #DEDEDE !important;
-    font-weight: bold;
-    font-size: 1rem;
-}
-
 .dynamic-width {
     width: fit-content;
     max-width: 100%;

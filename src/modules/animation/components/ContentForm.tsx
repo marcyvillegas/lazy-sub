@@ -84,6 +84,7 @@ export default function ContentForm() {
                 <Form.Item
                     name='content'
                     id='content-id'
+                    className='form-label'
                     rules={[{ required: true, whitespace: true, message: 'A content is required.' }]}
                 >
                     <Input.TextArea
@@ -93,7 +94,7 @@ export default function ContentForm() {
                 </Form.Item>
 
                 <Form.Item
-                    label='Separator'
+                    label={<label style={{ color: "#DEDEDE", fontWeight: "bold", fontSize: "1rem" }}>Separator</label>}
                     name='separator'
                     id='seperator-id'
                     rules={[{ required: true, message: 'A separator is required.' }]}
