@@ -36,18 +36,20 @@ export default function AnimationForm() {
 
             const initialState = existingState?.animationState || animationState;
 
-            updateAnimation({
-                animation: initialState.animation,
-                theme: initialState.theme,
-                font: initialState.font,
-                fontSize: initialState.fontSize
-            })
+            if (!animationState.startEditing) {
+                updateAnimation({
+                    animation: initialState.animation,
+                    theme: initialState.theme,
+                    font: initialState.font,
+                    fontSize: initialState.fontSize
+                })
 
-            form.resetFields()
-            setInitialAnimationValue(initialState.animation);
-            setInitialThemeValue(initialState.theme);
-            setInitialFontValue(initialState.font);
-            setInitialFontSizeValue(initialState.fontSize);
+                form.resetFields()
+                setInitialAnimationValue(initialState.animation);
+                setInitialThemeValue(initialState.theme);
+                setInitialFontValue(initialState.font);
+                setInitialFontSizeValue(initialState.fontSize);
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -125,6 +127,10 @@ export default function AnimationForm() {
         }, 200);
     }
 
+    const handleOnClickForm = () => {
+        updateAnimation({ startEditing: true })
+    }
+
     return (
         <>
             {contextHolder}
@@ -137,6 +143,7 @@ export default function AnimationForm() {
                     layout='vertical'
                     form={form}
                     onChange={handleOnClick}
+                    onClick={handleOnClickForm}
                 >
                     <Form.Item
                         label={<label style={{ color: "#DEDEDE", fontWeight: "bold", fontSize: "1rem" }}>Animation</label>}

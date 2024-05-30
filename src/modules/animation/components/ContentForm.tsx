@@ -7,7 +7,7 @@ import { useAnimationStore } from '@/stores/animationStore';
 
 
 export default function ContentForm() {
-    const { contentState, updateContent } = useAnimationStore();
+    const { contentState, animationState, updateContent } = useAnimationStore();
 
     const [initialSeparatorValue, setInitialSeparatorValue] = useState<any>(null)
     const [initialContentValue, setInitialContentValue] = useState<any>(null)
@@ -25,15 +25,18 @@ export default function ContentForm() {
 
             const initialState = existingState?.contentState || contentState;
 
-            updateContent({
-                content: initialState.content,
-                separator: initialState.separator,
-            })
+            if (!contentState.startEditing) {
+                updateContent({
+                    content: initialState.content,
+                    separator: initialState.separator,
+                })
 
-            form.resetFields();
-            setInitialSeparatorValue(initialState.separator);
-            setInitialContentValue(convertArrayToContentString(initialState.content, initialState.separator));
+                form.resetFields();
+                setInitialSeparatorValue(initialState.separator);
+                setInitialContentValue(convertArrayToContentString(initialState.content, initialState.separator));
+            }
         }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -53,7 +56,6 @@ export default function ContentForm() {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [form, initialContentValue, initialSeparatorValue, contentState.startEditing]);
-
 
     const onValuesChange = (changedValues: any, allValues: { content: string, separator: string }) => {
 
