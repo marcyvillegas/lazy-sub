@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+# LazySub
+
+Type and animate multiple texts in one go! 💻
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository
+2. Download dependencies `npm install`
+3. Run with command `npm run dev`
+4. Open `http://localhost:3000`
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Running Tests
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Currently, the project has no automated test, but it is one of my plans in the future.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Technologies Used
+- NextJS - Metaframework used
+- Zustand - State management
+- AntDesign - UI Component Library
+- TailwindCSS - CSS Framework
+- TypedJS - Type animations
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Plans
 
-## Learn More
+ - [ ] Add automated tests 
+ - [ ] Add more creative text animations
 
-To learn more about Next.js, take a look at the following resources:
+## License
+This project is licensed under the MIT License.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Acknowledgments
+The project is inspired by [devaslife's](https://www.youtube.com/watch?v=zu_vqAWHy_E&t=2s) video editing style.
