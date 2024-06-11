@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Typed from 'typed.js';
 import { useAnimationStore } from '@/stores/animationStore';
 
@@ -18,6 +18,10 @@ export default function useDisplayAnimation(
   setDisplayTyping: React.Dispatch<React.SetStateAction<boolean>>
 ) {
   const { contentState, animationState, updateAnimation } = useAnimationStore();
+
+  const [startSecondBubble, setStartSecondBubble] = useState(false);
+
+  let contentChatBubble = contentState.content;
 
   useEffect(() => {
     const content = contentState.content;
@@ -84,77 +88,37 @@ export default function useDisplayAnimation(
       animationState.isAnimationStarting &&
       animationState.animation == 'Chat Bubble'
     ) {
-      let contentChatBubble = contentState.content;
-
       setDisplayFistBubble(true);
       if (counterChatBubble == 0) {
         setDisplaySecondBubble(false);
       }
 
       let typedChatBubble: Typed;
-      let secondTypedChatBubble: Typed;
-      let timeoutChatBubble: NodeJS.Timeout;
 
-      typedChatBubble = new Typed(`#chat-bubble-${counterChatBubble}`, {
-        strings: [contentChatBubble[counterChatBubble]],
-        typeSpeed: 40,
-        showCursor: false,
-        onComplete: () => {
-          if (!(counterChatBubble < contentChatBubble.length - 1)) {
-            setTimeout(() => {
-              setDisplayFistBubble(false);
-              updateAnimation({ isAnimationStarting: false });
-            }, 1000);
-          }
-        },
-      });
-
-      if (counterChatBubble < contentChatBubble.length - 1) {
-        timeoutChatBubble = setTimeout(() => {
-          setDisplaySecondBubble(true);
-
-          secondTypedChatBubble = new Typed(
-            `#chat-bubble-${counterChatBubble + 1}`,
-            {
-              strings: [contentChatBubble[counterChatBubble + 1]],
-              typeSpeed: 40,
-              showCursor: false,
-              onComplete: () => {
-                setTimeout(() => {
-                  setDisplayFistBubble(false);
-                }, 1000);
-
-                setTimeout(() => {
-                  setDisplaySecondBubble(false);
-
-                  if (counterChatBubble + 1 == contentChatBubble.length - 1) {
-                    updateAnimation({ isAnimationStarting: false });
-                  }
-                }, 1500);
-
-                if (counterChatBubble + 1 < contentChatBubble.length - 1) {
-                  setTimeout(() => {
-                    setCounterChatBubble((prev) => prev + 2);
-                  }, 1600);
-                }
-              },
+      if (!startSecondBubble) {
+        typedChatBubble = new Typed(`#chat-bubble-${counterChatBubble}`, {
+          strings: [contentChatBubble[counterChatBubble]],
+          typeSpeed: 40,
+          showCursor: false,
+          onComplete: () => {
+            setStartSecondBubble(true);
+            if (!(counterChatBubble < contentChatBubble.length - 1)) {
+              setTimeout(() => {
+                setDisplayFistBubble(false);
+                updateAnimation({ isAnimationStarting: false });
+              }, 1000);
             }
-          );
-        }, 3000);
+          },
+        });
       }
 
       return () => {
-        if (secondTypedChatBubble) {
-          secondTypedChatBubble.destroy();
-        }
-
         if (typedChatBubble) {
           typedChatBubble.destroy();
         }
-
-        clearTimeout(timeoutChatBubble);
       };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     animationState.isAnimationStarting,
     contentState.content,
@@ -172,5 +136,59 @@ export default function useDisplayAnimation(
     setDisplayFistBubble,
     setDisplaySecondBubble,
     setDisplayTyping,
+  ]);
+
+  useEffect(() => {
+    let secondTypedChatBubble: Typed;
+
+    if (counterChatBubble < contentChatBubble.length - 1) {
+      if (startSecondBubble) {
+        setDisplaySecondBubble(true);
+
+        secondTypedChatBubble = new Typed(
+          `#chat-bubble-${counterChatBubble + 1}`,
+          {
+            strings: [contentChatBubble[counterChatBubble + 1]],
+            typeSpeed: 40,
+            showCursor: false,
+            onComplete: () => {
+              setTimeout(() => {
+                setDisplayFistBubble(false);
+              }, 1000);
+
+              setTimeout(() => {
+                setDisplaySecondBubble(false);
+                setStartSecondBubble(false);
+
+                if (counterChatBubble + 1 == contentChatBubble.length - 1) {
+                  updateAnimation({ isAnimationStarting: false });
+                }
+              }, 1500);
+
+              if (counterChatBubble + 1 < contentChatBubble.length - 1) {
+                setTimeout(() => {
+                  setCounterChatBubble((prev) => prev + 2);
+                }, 1600);
+              }
+            },
+          }
+        );
+      }
+    }
+
+    return () => {
+      if (secondTypedChatBubble) {
+        secondTypedChatBubble.destroy();
+      }
+    };
+  }, [
+    animationState.isAnimationStarting,
+    contentChatBubble,
+    counterChatBubble,
+    setCounterChatBubble,
+    setDisplayFistBubble,
+    setDisplaySecondBubble,
+    startSecondBubble,
+    updateAnimation,
   ]);
 }
