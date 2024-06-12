@@ -22,6 +22,7 @@ export default function useDisplayAnimation(
   const [startSecondBubble, setStartSecondBubble] = useState(false);
 
   let contentChatBubble = contentState.content;
+  const chatBubbleSound: any = document.getElementById('audio-tag');
 
   useEffect(() => {
     const content = contentState.content;
@@ -79,9 +80,10 @@ export default function useDisplayAnimation(
       };
     }
 
-    // Chat bubble animation
+    // Chat bubble animation - first chat bubble
     if (animationState.isAnimationStarting == false) {
       setCounterChatBubble(0);
+      setStartSecondBubble(false);
     }
 
     if (
@@ -136,14 +138,16 @@ export default function useDisplayAnimation(
     setDisplayFistBubble,
     setDisplaySecondBubble,
     setDisplayTyping,
+    contentChatBubble,
   ]);
 
   useEffect(() => {
-    let secondTypedChatBubble: Typed;
-
+    // Chat bubble animation - second chat bubble
     if (counterChatBubble < contentChatBubble.length - 1) {
       if (startSecondBubble) {
         setDisplaySecondBubble(true);
+
+        let secondTypedChatBubble: Typed;
 
         secondTypedChatBubble = new Typed(
           `#chat-bubble-${counterChatBubble + 1}`,
@@ -173,14 +177,14 @@ export default function useDisplayAnimation(
             },
           }
         );
+
+        return () => {
+          if (secondTypedChatBubble) {
+            secondTypedChatBubble.destroy();
+          }
+        };
       }
     }
-
-    return () => {
-      if (secondTypedChatBubble) {
-        secondTypedChatBubble.destroy();
-      }
-    };
   }, [
     animationState.isAnimationStarting,
     contentChatBubble,

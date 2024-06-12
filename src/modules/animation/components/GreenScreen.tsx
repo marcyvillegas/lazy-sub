@@ -7,6 +7,7 @@ import useDisplayAnimation from "@/hooks/useDisplayAnimation";
 import { useAnimationStore } from "@/stores/animationStore";
 import "@/modules/animation/animation.css";
 
+
 export default function GreenScreen() {
 
     const [isDisplayingAnimation, setIsDisplayingAnimation] = useState<boolean>(false)
