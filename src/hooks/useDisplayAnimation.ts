@@ -22,7 +22,7 @@ export default function useDisplayAnimation(
   const [startSecondBubble, setStartSecondBubble] = useState(false);
 
   let contentChatBubble = contentState.content;
-  const chatBubbleAudio = new Audio('/sounds/chat-bubble-sound.mp3');
+  // const chatBubbleAudio = new Audio('/sounds/chat-bubble-sound.mp3');
 
   useEffect(() => {
     const content = contentState.content;
