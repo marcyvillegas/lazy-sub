@@ -22,7 +22,7 @@ export default function useDisplayAnimation(
   const [startSecondBubble, setStartSecondBubble] = useState(false);
 
   let contentChatBubble = contentState.content;
-  const chatBubbleSound: any = document.getElementById('audio-tag');
+  const chatBubbleAudio = new Audio('/sounds/chat-bubble-sound.mp3');
 
   useEffect(() => {
     const content = contentState.content;
@@ -90,6 +90,7 @@ export default function useDisplayAnimation(
       animationState.isAnimationStarting &&
       animationState.animation == 'Chat Bubble'
     ) {
+      chatBubbleAudio.play();
       setDisplayFistBubble(true);
       if (counterChatBubble == 0) {
         setDisplaySecondBubble(false);
@@ -145,6 +146,7 @@ export default function useDisplayAnimation(
     // Chat bubble animation - second chat bubble
     if (counterChatBubble < contentChatBubble.length - 1) {
       if (startSecondBubble) {
+        chatBubbleAudio.play();
         setDisplaySecondBubble(true);
 
         let secondTypedChatBubble: Typed;
