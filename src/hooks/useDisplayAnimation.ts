@@ -23,6 +23,9 @@ export default function useDisplayAnimation(
 
   let contentChatBubble = contentState.content;
 
+  // Chat Bubble settings
+  const TYPE_SPEED = 40;
+
   useEffect(() => {
     const content = contentState.content;
     let contentNumber = 1;
@@ -99,10 +102,13 @@ export default function useDisplayAnimation(
       if (!startSecondBubble) {
         typedChatBubble = new Typed(`#chat-bubble-${counterChatBubble}`, {
           strings: [contentChatBubble[counterChatBubble]],
-          typeSpeed: 40,
+          typeSpeed: TYPE_SPEED,
           showCursor: false,
           onComplete: () => {
-            setStartSecondBubble(true);
+            setTimeout(() => {
+              setStartSecondBubble(true);
+            }, 1000);
+
             if (!(counterChatBubble < contentChatBubble.length - 1)) {
               setTimeout(() => {
                 setDisplayFistBubble(false);
@@ -152,7 +158,7 @@ export default function useDisplayAnimation(
           `#chat-bubble-${counterChatBubble + 1}`,
           {
             strings: [contentChatBubble[counterChatBubble + 1]],
-            typeSpeed: 40,
+            typeSpeed: TYPE_SPEED,
             showCursor: false,
             onComplete: () => {
               setTimeout(() => {
