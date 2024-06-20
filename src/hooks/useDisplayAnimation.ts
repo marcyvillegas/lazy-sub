@@ -105,15 +105,17 @@ export default function useDisplayAnimation(
           typeSpeed: TYPE_SPEED,
           showCursor: false,
           onComplete: () => {
+            // Displays the second chat bubble
             setTimeout(() => {
               setStartSecondBubble(true);
-            }, 1000);
+            }, 1500);
 
+            // Runs if there is only one chat bubble
             if (!(counterChatBubble < contentChatBubble.length - 1)) {
               setTimeout(() => {
                 setDisplayFistBubble(false);
                 updateAnimation({ isAnimationStarting: false });
-              }, 1000);
+              }, 1500);
             }
           },
         });
@@ -161,23 +163,27 @@ export default function useDisplayAnimation(
             typeSpeed: TYPE_SPEED,
             showCursor: false,
             onComplete: () => {
+              // Removes the first chat bubble
               setTimeout(() => {
                 setDisplayFistBubble(false);
-              }, 1000);
+              }, 1500);
 
               setTimeout(() => {
+                // Removes the second chat bubble
                 setDisplaySecondBubble(false);
                 setStartSecondBubble(false);
 
+                // Stops the animation
                 if (counterChatBubble + 1 == contentChatBubble.length - 1) {
                   updateAnimation({ isAnimationStarting: false });
                 }
-              }, 1500);
+              }, 2000);
 
+              // Moves to the next set of text to animate
               if (counterChatBubble + 1 < contentChatBubble.length - 1) {
                 setTimeout(() => {
                   setCounterChatBubble((prev) => prev + 2);
-                }, 1600);
+                }, 2100);
               }
             },
           }
