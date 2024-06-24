@@ -1,5 +1,10 @@
 export const themes = [
   {
+    name: 'Snow',
+    style: 'bg-snow-white rounded-3xl p-2 px-4',
+    text: 'text-main-background justify-center',
+  },
+  {
     name: 'Light',
     style: 'bg-white-tab p-2',
     text: 'text-main-background justify-center',
@@ -17,6 +22,16 @@ export const themes = [
   {
     name: 'Dark Rounded',
     style: 'bg-main-background rounded-3xl p-2 px-4',
+    text: 'text-white-tab justify-center',
+  },
+  {
+    name: 'iMessage',
+    style: 'bg-message-blue rounded-3xl p-2 px-4',
+    text: 'text-white-tab justify-center',
+  },
+  {
+    name: 'Forest',
+    style: 'bg-forest-green rounded-3xl p-2 px-4',
     text: 'text-white-tab justify-center',
   },
 ];

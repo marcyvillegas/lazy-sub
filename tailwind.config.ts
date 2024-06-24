@@ -26,7 +26,10 @@ const config: Config = {
         'green-button': '#007D5C',
         'green-border': '#009970',
 
-        // used for animations
+        // themes
+        'snow-white': '#FFF',
+        'message-blue': '#1F8AFF',
+        'forest-green': '#283618',
       },
       fontFamily: {
         inter: ['Inter', 'sans-serif'],

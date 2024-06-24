@@ -173,7 +173,7 @@ export default function useDisplayAnimation(
                 setDisplaySecondBubble(false);
                 setStartSecondBubble(false);
 
-                // Stops the animation
+                // Stops the animation if its the last set of text
                 if (counterChatBubble + 1 == contentChatBubble.length - 1) {
                   updateAnimation({ isAnimationStarting: false });
                 }
