@@ -34,4 +34,4 @@ export const themes = [
     style: 'bg-forest-green rounded-3xl p-2 px-4',
     text: 'text-white-tab justify-center',
   },
-];
+]

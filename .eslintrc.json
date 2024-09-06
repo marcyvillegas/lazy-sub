@@ -1,3 +1,7 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
+  // "parser": "@typescript-eslint/parser", // not installed in this project
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "error"
+  }
 }
