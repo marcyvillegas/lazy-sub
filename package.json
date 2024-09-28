@@ -13,6 +13,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.3.6",
     "@typescript-eslint/eslint-plugin": "^8.4.0",
+    "@typescript-eslint/parser": "^8.0.0",
     "antd": "^5.13.2",
     "husky": "^9.1.5",
     "lint-staged": "^15.2.10",
