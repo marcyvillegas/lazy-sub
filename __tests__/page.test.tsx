@@ -8,6 +8,7 @@ describe('Page', () => {
 
     const heading = screen.getByRole('div')
 
+    // add comment for testing
     expect(heading).toBeInTheDocument()
   })
 })
