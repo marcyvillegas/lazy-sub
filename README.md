@@ -21,11 +21,6 @@ Currently, the project has no automated test, but it is one of my plans in the f
 - TailwindCSS - CSS Framework
 - TypedJS - Type animations
 
-## Plans
-
- - [ ] Add automated tests 
- - [ ] Add more creative text animations
-
 ## License
 This project is licensed under the MIT License.
 
