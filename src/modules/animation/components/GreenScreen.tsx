@@ -130,6 +130,9 @@ export default function GreenScreen() {
           </div>
         </div>
       </div>
+
+      <div>fasdfa</div>
+      <video id="video">fasdf</video>
     </div>
   )
 }

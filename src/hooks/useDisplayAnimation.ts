@@ -31,7 +31,7 @@ export default function useDisplayAnimation(
     const content = contentState.content
     let contentNumber = 1
 
-    // Default and bounce animation
+    // 👉 Default and bounce animation
     if (
       animationState.isAnimationStarting &&
       !['Typing', 'Chat Bubble'].includes(animationState.animation)
@@ -59,7 +59,7 @@ export default function useDisplayAnimation(
       return () => clearInterval(interval)
     }
 
-    // Typing animation
+    // 👉 Typing animation
     if (
       animationState.isAnimationStarting &&
       animationState.animation == 'Typing'
@@ -83,7 +83,7 @@ export default function useDisplayAnimation(
       }
     }
 
-    // Chat bubble animation - first chat bubble
+    // 👉 Chat bubble animation - first chat bubble
     if (animationState.isAnimationStarting == false) {
       setCounterChatBubble(0)
       setStartSecondBubble(false)
@@ -152,7 +152,7 @@ export default function useDisplayAnimation(
   ])
 
   useEffect(() => {
-    // Chat bubble animation - second chat bubble
+    // 👉 Chat bubble animation - second chat bubble
     if (counterChatBubble < contentChatBubble.length - 1) {
       if (startSecondBubble) {
         setDisplaySecondBubble(true)
