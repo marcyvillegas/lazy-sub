@@ -16,13 +16,7 @@ import '../styles/animationForm.css'
 import { themes } from '../constants/themes'
 import { fontSizes } from '../constants'
 import useLocalStorage from '@/hooks/useLocalStorage'
-import RecordRTC, { invokeSaveAsDialog } from 'recordrtc'
-import dynamic from 'next/dynamic'
-
-// Dynamically import VideoRecordingDialog, disabling SSR
-const VideoSample = dynamic(() => import('../components/VideoSample'), {
-  ssr: false,
-})
+// import RecordRTC, { invokeSaveAsDialog } from 'recordrtc'
 
 export default function AnimationForm() {
   const { contentState, animationState, updateAnimation } = useAnimationStore()
@@ -40,23 +34,19 @@ export default function AnimationForm() {
   )
   const [isResetClicked, setIsResetClicked] = useState(false)
 
-  const [existingLocalStorage, setExistingLocalStorage] =
-    useState<boolean>(false)
-
   const [form] = Form.useForm()
 
-  const [stream, setStream] = useState(null)
+  // const [stream, setStream] = useState(null)
   const [blob, setBlob] = useState(null)
-  const refVideo = useRef(null)
+  // const refVideo = useRef(null)
   const recorderRef = useRef<any>(null)
 
+  // Checker if there is a local storage animation state exists
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const existingState = localStorage.getItem('content-animation-state')
         ? JSON.parse(localStorage.getItem('content-animation-state')!)
         : false
-
-      if (existingState) setExistingLocalStorage(true)
 
       const initialState = existingState?.animationState || animationState
 
@@ -85,19 +75,6 @@ export default function AnimationForm() {
       font: initialFontValue,
       fontSize: initialFontSizeValue,
     })
-
-    if (animationState.startEditing && !existingLocalStorage) {
-      form.setFieldsValue({
-        animation: animationState.animation,
-        theme: animationState.theme,
-        font: animationState.font,
-        fontSize: animationState.fontSize,
-      })
-      setInitialAnimationValue(animationState.animation)
-      setInitialThemeValue(animationState.theme)
-      setInitialFontValue(animationState.font)
-      setInitialFontSizeValue(animationState.fontSize)
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     form,
@@ -123,10 +100,11 @@ export default function AnimationForm() {
     setContentAnimationState(contentState, animationState)
     showSuccessMessage()
 
-    if (blob != null) invokeSaveAsDialog(blob)
+    // if (blob != null) invokeSaveAsDialog(blob)
   }
 
   const handleOnClick = async () => {
+    // setTimeout(() => {
     updateAnimation({
       animation: form.getFieldValue('animation'),
       theme: form.getFieldValue('theme'),
@@ -134,22 +112,23 @@ export default function AnimationForm() {
       fontSize: form.getFieldValue('fontSize'),
       isAnimationStarting: true,
     })
+    // }, 2000)
 
-    const mediaStream: any = await navigator.mediaDevices.getDisplayMedia({
-      video: {
-        width: 1920,
-        height: 1080,
-        frameRate: 30,
-      },
-      audio: false,
-    })
+    // const mediaStream: any = await navigator.mediaDevices.getDisplayMedia({
+    //   video: {
+    //     width: 1920,
+    //     height: 1080,
+    //     frameRate: 60,
+    //   },
+    //   audio: false,
+    // })
 
-    setStream(mediaStream)
+    // setStream(mediaStream)
 
-    if (!recorderRef.current) {
-      recorderRef.current = new RecordRTC(mediaStream, { type: 'video' })
-      recorderRef.current.startRecording()
-    }
+    // if (!recorderRef.current) {
+    //   recorderRef.current = new RecordRTC(mediaStream, { type: 'video' })
+    //   recorderRef.current.startRecording()
+    // }
   }
 
   const handleOnStop = () => {
@@ -200,18 +179,13 @@ export default function AnimationForm() {
     updateAnimation({ startEditing: true })
   }
 
-  useEffect(() => {
-    if (!refVideo.current) {
-      return
-    }
+  // useEffect(() => {
+  //   if (!refVideo.current) {
+  //     return
+  //   }
 
-    // refVideo.current.srcObject = stream;
-  }, [stream, refVideo])
-
-  // // eslint-disable-next-line @typescript-eslint/no-require-imports
-  // const URL = require('url').Url
-  // const videoUrl = URL.createObjectURL(blob)
-
+  // refVideo.current.srcObject = stream;
+  // }, [stream, refVideo])
   return (
     <>
       {contextHolder}
@@ -338,7 +312,14 @@ export default function AnimationForm() {
             </div>
           </div>
         </Form>
-        {blob && <VideoSample blob={blob} />}
+        {blob && (
+          <video
+            src={URL.createObjectURL(blob)}
+            controls
+            autoPlay
+            style={{ width: '700px', margin: '1em' }}
+          />
+        )}
       </div>
     </>
   )

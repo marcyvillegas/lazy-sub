@@ -1,15 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Typed from 'typed.js'
 import { useAnimationStore } from '@/stores/animationStore'
 
 export default function useDisplayAnimation(
   setLineDisplayed: React.Dispatch<React.SetStateAction<string>>,
-  selectedAnimation: string,
-  selectedFont: string,
-  selectedFontSize: number,
-  selectedTheme: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   contentRef: any | null,
   counterChatBubble: number,
@@ -21,8 +17,12 @@ export default function useDisplayAnimation(
   const { contentState, animationState, updateAnimation } = useAnimationStore()
 
   const [startSecondBubble, setStartSecondBubble] = useState(false)
+  const timeOneRef = useRef<null | NodeJS.Timeout>(null)
+  const timeTwoRef = useRef<null | NodeJS.Timeout>(null)
 
-  const contentChatBubble = contentState.content
+  const timeThreeRef = useRef<null | NodeJS.Timeout>(null)
+  const timeFourRef = useRef<null | NodeJS.Timeout>(null)
+  const timeFiveRef = useRef<null | NodeJS.Timeout>(null)
 
   // Chat Bubble settings
   const TYPE_SPEED = 40
@@ -84,9 +84,13 @@ export default function useDisplayAnimation(
     }
 
     // 👉 Chat bubble animation - first chat bubble
-    if (animationState.isAnimationStarting == false) {
+    if (!animationState.isAnimationStarting) {
       setCounterChatBubble(0)
       setStartSecondBubble(false)
+      if (timeOneRef.current) clearTimeout(timeOneRef.current) // Clear the timeout
+      timeOneRef.current = null
+      if (timeTwoRef.current) clearTimeout(timeTwoRef.current) // Clear the timeout
+      timeTwoRef.current = null
     }
 
     if (
@@ -102,18 +106,18 @@ export default function useDisplayAnimation(
 
       if (!startSecondBubble) {
         typedChatBubble = new Typed(`#chat-bubble-${counterChatBubble}`, {
-          strings: [contentChatBubble[counterChatBubble]],
+          strings: [contentState.content[counterChatBubble]],
           typeSpeed: TYPE_SPEED,
           showCursor: false,
           onComplete: () => {
             // Displays the second chat bubble
-            setTimeout(() => {
+            timeOneRef.current = setTimeout(() => {
               setStartSecondBubble(true)
             }, 1500)
 
             // Runs if there is only one chat bubble
-            if (!(counterChatBubble < contentChatBubble.length - 1)) {
-              setTimeout(() => {
+            if (!(counterChatBubble < contentState.content.length - 1)) {
+              timeTwoRef.current = setTimeout(() => {
                 setDisplayFistBubble(false)
                 updateAnimation({
                   isAnimationStarting: false,
@@ -136,10 +140,6 @@ export default function useDisplayAnimation(
     contentState.content,
     animationState.animation,
     animationState.theme,
-    selectedAnimation,
-    selectedFont,
-    selectedFontSize,
-    selectedTheme,
     setLineDisplayed,
     updateAnimation,
     contentRef,
@@ -148,12 +148,23 @@ export default function useDisplayAnimation(
     setDisplayFistBubble,
     setDisplaySecondBubble,
     setDisplayTyping,
-    contentChatBubble,
   ])
 
   useEffect(() => {
     // 👉 Chat bubble animation - second chat bubble
-    if (counterChatBubble < contentChatBubble.length - 1) {
+    if (!animationState.isAnimationStarting) {
+      if (timeThreeRef.current) clearTimeout(timeThreeRef.current) // Clear the timeout
+      timeThreeRef.current = null
+      if (timeFourRef.current) clearTimeout(timeFourRef.current) // Clear the timeout
+      timeFourRef.current = null
+      if (timeFiveRef.current) clearTimeout(timeFiveRef.current) // Clear the timeout
+      timeFiveRef.current = null
+    }
+
+    if (
+      counterChatBubble < contentState.content.length - 1 &&
+      animationState.isAnimationStarting
+    ) {
       if (startSecondBubble) {
         setDisplaySecondBubble(true)
 
@@ -163,22 +174,22 @@ export default function useDisplayAnimation(
         secondTypedChatBubble = new Typed(
           `#chat-bubble-${counterChatBubble + 1}`,
           {
-            strings: [contentChatBubble[counterChatBubble + 1]],
+            strings: [contentState.content[counterChatBubble + 1]],
             typeSpeed: TYPE_SPEED,
             showCursor: false,
             onComplete: () => {
               // Removes the first chat bubble
-              setTimeout(() => {
+              timeThreeRef.current = setTimeout(() => {
                 setDisplayFistBubble(false)
               }, 1500)
 
-              setTimeout(() => {
+              timeFourRef.current = setTimeout(() => {
                 // Removes the second chat bubble
                 setDisplaySecondBubble(false)
                 setStartSecondBubble(false)
 
                 // Stops the animation if its the last set of text
-                if (counterChatBubble + 1 == contentChatBubble.length - 1) {
+                if (counterChatBubble + 1 == contentState.content.length - 1) {
                   updateAnimation({
                     isAnimationStarting: false,
                   })
@@ -186,8 +197,8 @@ export default function useDisplayAnimation(
               }, 2000)
 
               // Moves to the next set of text to animate
-              if (counterChatBubble + 1 < contentChatBubble.length - 1) {
-                setTimeout(() => {
+              if (counterChatBubble + 1 < contentState.content.length - 1) {
+                timeFiveRef.current = setTimeout(() => {
                   setCounterChatBubble((prev) => prev + 2)
                 }, 2100)
               }
@@ -204,7 +215,7 @@ export default function useDisplayAnimation(
     }
   }, [
     animationState.isAnimationStarting,
-    contentChatBubble,
+    contentState.content,
     counterChatBubble,
     setCounterChatBubble,
     setDisplayFistBubble,

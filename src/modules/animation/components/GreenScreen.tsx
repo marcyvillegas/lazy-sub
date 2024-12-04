@@ -11,10 +11,6 @@ import '@/modules/animation/animation.css'
 export default function GreenScreen() {
   const [isDisplayingAnimation, setIsDisplayingAnimation] =
     useState<boolean>(false)
-  const [selectedAnimation, setSelectedAnimation] = useState<string>('')
-  const [selectedTheme, setSelectedTheme] = useState<string>('')
-  const [selectedFont, setSelectedFont] = useState<string>('')
-  const [selectedFontSize, setSelectedFontSize] = useState<number>(0)
 
   const [classNameAnimation, setClassNameAnimation] = useState<string>('')
   const [classNameTheme, setClassNameTheme] = useState<any>({})
@@ -32,10 +28,6 @@ export default function GreenScreen() {
   const { animationState } = useAnimationStore()
   useDisplayAnimation(
     setLineDisplayed,
-    selectedAnimation,
-    selectedFont,
-    selectedFontSize,
-    selectedTheme,
     contentRef,
     counterChatBubble,
     setCounterChatBubble,
@@ -46,10 +38,6 @@ export default function GreenScreen() {
 
   useEffect(() => {
     if (animationState.isAnimationStarting) {
-      setSelectedAnimation(animationState.animation)
-      setSelectedTheme(animationState.theme)
-      setSelectedFont(animationState.font)
-      setSelectedFontSize(animationState.fontSize)
       setIsDisplayingAnimation(true)
     }
 
@@ -58,12 +46,12 @@ export default function GreenScreen() {
     }
 
     const animationType = animationTypes.find(
-      (item) => item.name == selectedAnimation
+      (item) => item.name == animationState.animation
     )
-    const themeType = themes.find((item) => item.name == selectedTheme)
+    const themeType = themes.find((item) => item.name == animationState.theme)
     // const fontType = fonts.find((item) => item.name == selectedFont)
     const fontSizeType: any = fontSizes.find(
-      (item) => item.name == selectedFontSize
+      (item) => item.name == animationState.fontSize
     )
 
     if (!animationType) {
@@ -92,10 +80,6 @@ export default function GreenScreen() {
     animationState.fontSize,
     animationState.isAnimationStarting,
     animationState.theme,
-    selectedAnimation,
-    selectedFont,
-    selectedFontSize,
-    selectedTheme,
   ])
 
   return (
@@ -105,19 +89,19 @@ export default function GreenScreen() {
           className={`${isDisplayingAnimation ? 'flex' : 'hidden'} ${classNameTheme.text} items-center w-3/5 ${classNameFontSize}`}
         >
           <div
-            className={`${!displayTyping ? 'block' : 'hidden'} ${selectedAnimation == 'Chat Bubble' ? 'hidden' : 'flex'} ${classNameAnimation} ${classNameTheme.style}`}
+            className={`${!displayTyping ? 'block' : 'hidden'} ${animationState.animation == 'Chat Bubble' ? 'hidden' : 'flex'} ${classNameAnimation} ${classNameTheme.style}`}
             ref={contentRef}
           >
             {lineDisplayed}
           </div>
 
           <div
-            className={`${displayTyping ? 'block' : 'hidden'} ${selectedAnimation == 'Chat Bubble' ? 'hidden' : 'flex'} ${classNameAnimation} ${classNameTheme.style}`}
+            className={`${displayTyping ? 'block' : 'hidden'} ${animationState.animation == 'Chat Bubble' ? 'hidden' : 'flex'} ${classNameAnimation} ${classNameTheme.style}`}
             id="element"
           ></div>
 
           <div
-            className={`${selectedAnimation == 'Chat Bubble' ? 'flex' : 'hidden'} text-left w-full justify-center flex-col break-words`}
+            className={`${animationState.animation == 'Chat Bubble' ? 'flex' : 'hidden'} text-left w-full justify-center flex-col break-words`}
           >
             <div
               className={`${displayFistBubble ? 'block' : 'hidden'} ${classNameAnimation} ${classNameTheme.style} mb-2 break-words dynamic-width`}
@@ -130,9 +114,6 @@ export default function GreenScreen() {
           </div>
         </div>
       </div>
-
-      <div>fasdfa</div>
-      <video id="video">fasdf</video>
     </div>
   )
 }
