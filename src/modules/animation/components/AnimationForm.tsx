@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { Form, Select, message } from 'antd'
 import { Button } from '@/components'
@@ -16,6 +16,7 @@ import '../styles/animationForm.css'
 import { themes } from '../constants/themes'
 import { fontSizes } from '../constants'
 import useLocalStorage from '@/hooks/useLocalStorage'
+// import RecordRTC, { invokeSaveAsDialog } from 'recordrtc'
 
 export default function AnimationForm() {
   const { contentState, animationState, updateAnimation } = useAnimationStore()
@@ -33,18 +34,19 @@ export default function AnimationForm() {
   )
   const [isResetClicked, setIsResetClicked] = useState(false)
 
-  const [existingLocalStorage, setExistingLocalStorage] =
-    useState<boolean>(false)
-
   const [form] = Form.useForm()
 
+  // const [stream, setStream] = useState(null)
+  const [blob, setBlob] = useState(null)
+  // const refVideo = useRef(null)
+  const recorderRef = useRef<any>(null)
+
+  // Checker if there is a local storage animation state exists
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const existingState = localStorage.getItem('content-animation-state')
         ? JSON.parse(localStorage.getItem('content-animation-state')!)
         : false
-
-      if (existingState) setExistingLocalStorage(true)
 
       const initialState = existingState?.animationState || animationState
 
@@ -73,19 +75,6 @@ export default function AnimationForm() {
       font: initialFontValue,
       fontSize: initialFontSizeValue,
     })
-
-    if (animationState.startEditing && !existingLocalStorage) {
-      form.setFieldsValue({
-        animation: animationState.animation,
-        theme: animationState.theme,
-        font: animationState.font,
-        fontSize: animationState.fontSize,
-      })
-      setInitialAnimationValue(animationState.animation)
-      setInitialThemeValue(animationState.theme)
-      setInitialFontValue(animationState.font)
-      setInitialFontSizeValue(animationState.fontSize)
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     form,
@@ -110,9 +99,12 @@ export default function AnimationForm() {
   ) => {
     setContentAnimationState(contentState, animationState)
     showSuccessMessage()
+
+    // if (blob != null) invokeSaveAsDialog(blob)
   }
 
-  const handleOnClick = () => {
+  const handleOnClick = async () => {
+    // setTimeout(() => {
     updateAnimation({
       animation: form.getFieldValue('animation'),
       theme: form.getFieldValue('theme'),
@@ -120,10 +112,33 @@ export default function AnimationForm() {
       fontSize: form.getFieldValue('fontSize'),
       isAnimationStarting: true,
     })
+    // }, 2000)
+
+    // const mediaStream: any = await navigator.mediaDevices.getDisplayMedia({
+    //   video: {
+    //     width: 1920,
+    //     height: 1080,
+    //     frameRate: 60,
+    //   },
+    //   audio: false,
+    // })
+
+    // setStream(mediaStream)
+
+    // if (!recorderRef.current) {
+    //   recorderRef.current = new RecordRTC(mediaStream, { type: 'video' })
+    //   recorderRef.current.startRecording()
+    // }
   }
 
   const handleOnStop = () => {
     updateAnimation({ isAnimationStarting: false })
+
+    if (recorderRef.current) {
+      recorderRef.current.stopRecording(() => {
+        if (recorderRef.current) setBlob(recorderRef.current.getBlob())
+      })
+    }
   }
 
   const handleOnReset = () => {
@@ -164,6 +179,13 @@ export default function AnimationForm() {
     updateAnimation({ startEditing: true })
   }
 
+  // useEffect(() => {
+  //   if (!refVideo.current) {
+  //     return
+  //   }
+
+  // refVideo.current.srcObject = stream;
+  // }, [stream, refVideo])
   return (
     <>
       {contextHolder}
@@ -290,6 +312,14 @@ export default function AnimationForm() {
             </div>
           </div>
         </Form>
+        {blob && (
+          <video
+            src={URL.createObjectURL(blob)}
+            controls
+            autoPlay
+            style={{ width: '700px', margin: '1em' }}
+          />
+        )}
       </div>
     </>
   )
